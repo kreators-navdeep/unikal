@@ -12,6 +12,9 @@ class ForgotPasswordPage extends StatefulWidget {
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
+  final GlobalKey<FormState> _formKeyForgot = GlobalKey<FormState>();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,12 +26,18 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           children: [
             Text('Please enter your registered email id',style: TextStyles.heading1,),
             SizedBox(height: 16,),
-            AppTextField(
-              defaultValidators: [],
-              hint: 'Email iD',
+            Form(
+              key: _formKeyForgot,
+              child: AppTextField(
+                defaultValidators: [
+                  DefaultValidators.VALID_EMAIL
+                ],
+                hint: 'Email iD',
+              ),
             ),
             SizedBox(height: 36,),
             AppButton(text: 'Get OTP', onPressed: (){
+              if (!_formKeyForgot.currentState.validate()) return;
               Navigator.push(context, Routes.verifyOTP());
             },isFullWidth: true,),
 

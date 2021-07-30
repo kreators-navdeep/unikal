@@ -13,6 +13,8 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin {
 
+  final GlobalKey<FormState> _formKeyLogin = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKeySignUp = GlobalKey<FormState>();
 
   TabController _controller;
   int _selectedIndex = 0;
@@ -60,104 +62,122 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
 
   _buildCreateAccount(){
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(height: 20,),
-          _buildSocialLoginButton(text: 'Continue with Linkedin',icon: 'linkedin'),
-          SizedBox(height: 14,),
-          _buildSocialLoginButton(text: 'Continue with Google',icon: 'google'),
-          SizedBox(height: 20,),
-          Row(
-            children: [
-              Expanded(child: Container(height: 1,color: Theme.of(context).dividerColor,)),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 35),
-                child: Text('or',style: TextStyle(fontSize: SizeConfig.textMultiplier * 1.8),),
-              ),
-              Expanded(child: Container(height: 1,color: Theme.of(context).dividerColor,)),
-            ],
-          ),
-          SizedBox(height: 20,),
-          AppTextField(
-            defaultValidators: [],
-            prefix: Icon(Icons.email_outlined),
-            hint: 'Email',
-          ),
-          SizedBox(height: 14,),
-          AppTextField(
-            defaultValidators: [],
-            prefix: Icon(Icons.lock_outline_rounded),
-            hint: 'Password',
-          ),
-          SizedBox(height: 14,),
-          AppTextField(
-            defaultValidators: [],
-            prefix: Icon(Icons.lock_outline_rounded),
-            hint: 'Confirm Password',
-          ),
-          SizedBox(height: 16,),
-          Text.rich(
-            TextSpan(
-              text: 'By creating an account you agree to our',
+      child: Form(
+        key: _formKeySignUp,
+        child: Column(
+          children: [
+            SizedBox(height: 20,),
+            _buildSocialLoginButton(text: 'Continue with Linkedin',icon: 'linkedin'),
+            SizedBox(height: 14,),
+            _buildSocialLoginButton(text: 'Continue with Google',icon: 'google'),
+            SizedBox(height: 20,),
+            Row(
               children: [
-                TextSpan(
-                  text : 'Terms and Condition',
-                  style: TextStyle(decoration: TextDecoration.underline),
-                  children: [],
+                Expanded(child: Container(height: 1,color: Theme.of(context).dividerColor,)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 35),
+                  child: Text('or',style: TextStyle(fontSize: SizeConfig.textMultiplier * 1.8),),
                 ),
-                TextSpan(text: ' and '),
-                TextSpan(
-                  text : 'Privacy and Cookie Statement',
-                  style: TextStyle(decoration: TextDecoration.underline),
-                  children: [],
-                ),
-              ]
-            )
-          )
+                Expanded(child: Container(height: 1,color: Theme.of(context).dividerColor,)),
+              ],
+            ),
+            SizedBox(height: 20,),
+            AppTextField(
+              defaultValidators: [
+                DefaultValidators.VALID_EMAIL
+              ],
+              prefix: Icon(Icons.email_outlined),
+              hint: 'Email',
+            ),
+            SizedBox(height: 14,),
+            AppTextField(
+              defaultValidators: [
+                DefaultValidators.VALID_PASSWORD
+              ],
+              prefix: Icon(Icons.lock_outline_rounded),
+              hint: 'Password',
+            ),
+            SizedBox(height: 14,),
+            AppTextField(
+              defaultValidators: [
+                DefaultValidators.VALID_PASSWORD
+              ],
+              prefix: Icon(Icons.lock_outline_rounded),
+              hint: 'Confirm Password',
+            ),
+            SizedBox(height: 16,),
+            Text.rich(
+              TextSpan(
+                text: 'By creating an account you agree to our',
+                children: [
+                  TextSpan(
+                    text : 'Terms and Condition',
+                    style: TextStyle(decoration: TextDecoration.underline),
+                    children: [],
+                  ),
+                  TextSpan(text: ' and '),
+                  TextSpan(
+                    text : 'Privacy and Cookie Statement',
+                    style: TextStyle(decoration: TextDecoration.underline),
+                    children: [],
+                  ),
+                ]
+              )
+            ),
+            SizedBox(height: 16,),
 
-        ],
+
+          ],
+        ),
       ),
     );
   }
 
   _buildLogin(){
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(height: 20,),
-          _buildSocialLoginButton(text: 'Continue with Linkedin',icon: 'linkedin'),
-          SizedBox(height: 14,),
-          _buildSocialLoginButton(text: 'Continue with Google',icon: 'google'),
-          SizedBox(height: 20,),
-          Row(
-            children: [
-              Expanded(child: Container(height: 1,color: Theme.of(context).dividerColor,)),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 35),
-                child: Text('or',style: TextStyle(fontSize: SizeConfig.textMultiplier * 1.8),),
-              ),
-              Expanded(child: Container(height: 1,color: Theme.of(context).dividerColor,)),
-            ],
-          ),
-          SizedBox(height: 20,),
-          AppTextField(
-            defaultValidators: [],
-            prefix: Icon(Icons.email_outlined),
-            hint: 'Email',
-          ),
-          SizedBox(height: 14,),
-          AppTextField(
-            defaultValidators: [],
-            prefix: Icon(Icons.lock_outline_rounded),
-            hint: 'Password',
-          ),
-          SizedBox(height: 16,),
-          TextButton(
-              onPressed: (){
-                Navigator.push(context, Routes.forgotPassword());
-              },
-              child: Text('Forgot Password?',style: TextStyle(color: Theme.of(context).errorColor,decoration: TextDecoration.underline,fontSize: SizeConfig.textMultiplier * 2),))
-        ],
+      child: Form(
+        key: _formKeyLogin,
+        child: Column(
+          children: [
+            SizedBox(height: 20,),
+            _buildSocialLoginButton(text: 'Continue with Linkedin',icon: 'linkedin'),
+            SizedBox(height: 14,),
+            _buildSocialLoginButton(text: 'Continue with Google',icon: 'google'),
+            SizedBox(height: 20,),
+            Row(
+              children: [
+                Expanded(child: Container(height: 1,color: Theme.of(context).dividerColor,)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 35),
+                  child: Text('or',style: TextStyle(fontSize: SizeConfig.textMultiplier * 1.8),),
+                ),
+                Expanded(child: Container(height: 1,color: Theme.of(context).dividerColor,)),
+              ],
+            ),
+            SizedBox(height: 20,),
+            AppTextField(
+              defaultValidators: [
+                DefaultValidators.VALID_EMAIL,
+              ],
+              prefix: Icon(Icons.email_outlined),
+              hint: 'Email',
+            ),
+            SizedBox(height: 14,),
+            AppTextField(
+              defaultValidators: [
+                DefaultValidators.VALID_PASSWORD
+              ],
+              prefix: Icon(Icons.lock_outline_rounded),
+              hint: 'Password',
+            ),
+            SizedBox(height: 16,),
+            TextButton(
+                onPressed: (){
+                  Navigator.push(context, Routes.forgotPassword());
+                },
+                child: Text('Forgot Password?',style: TextStyle(color: Theme.of(context).errorColor,decoration: TextDecoration.underline,fontSize: SizeConfig.textMultiplier * 2),))
+          ],
+        ),
       ),
     );
   }
@@ -166,53 +186,65 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: Container(
         padding: const EdgeInsets.only(left: 25,right: 25),
-        child: Column(
-          children: [
-            Container(
-              height: SizeConfig.getScreenHeight(context) * 0.9,
-              width: SizeConfig.getScreenWidth(context),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('assets/images/logo.png'),
-                  SizedBox(height: 40,),
-                  Container(
-                    height: SizeConfig.getScreenHeight(context) * 0.06,
-                    width: SizeConfig.getScreenWidth(context),
-                    child: TabBar(
-                      controller: _controller,
-                      tabs: list,
-                      labelColor: Colors.black,
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              Container(
+                height: SizeConfig.getScreenHeight(context) * 0.9,
+                width: SizeConfig.getScreenWidth(context),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: SizeConfig.getScreenHeight(context) * 0.1,),
+                    Image.asset('assets/images/logo.png',height: SizeConfig.getScreenHeight(context) * 0.15,),
+                    SizedBox(height: 40,),
+                    Container(
+                      height: SizeConfig.getScreenHeight(context) * 0.06,
+                      width: SizeConfig.getScreenWidth(context),
+                      child: TabBar(
+                        controller: _controller,
+                        tabs: list,
+                        labelColor: Colors.black,
+                      ),
                     ),
-                  ),
-                  Container(
-                    width: SizeConfig.getScreenWidth(context),
-                    height: SizeConfig.getScreenHeight(context) * 0.5,
-                    child: TabBarView(
-                      controller: _controller,
-                      physics: NeverScrollableScrollPhysics(),
-                      children: [
-                        _buildCreateAccount(),
-                        _buildLogin()
-                      ],
-                    ),
-                  )
-                ],
+                    Container(
+                      width: SizeConfig.getScreenWidth(context),
+                      height: SizeConfig.getScreenHeight(context) * 0.59 - 40,
+                      child: TabBarView(
+                        controller: _controller,
+                        physics: NeverScrollableScrollPhysics(),
+                        children: [
+                          _buildCreateAccount(),
+                          _buildLogin()
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-            Container(
-              height: SizeConfig.getScreenHeight(context) * 0.1,
-              width: SizeConfig.getScreenWidth(context),
-              child: AppButton(
-                text: _selectedIndex == 0 ?'Sign Up': 'Login',
-                isFullWidth: true,
-                onPressed: (){},
+              Container(
+                height: SizeConfig.getScreenHeight(context) * 0.1,
+                width: SizeConfig.getScreenWidth(context),
+                child: AppButton(
+                  text: _selectedIndex == 0 ?'Sign Up': 'Login',
+                  isFullWidth: true,
+                  onPressed: (){
+                    FocusScope.of(context).unfocus();
+                    if(_selectedIndex == 0){
+                      if (!_formKeySignUp.currentState.validate()) return;
+                      _formKeyLogin.currentState.save();
+                    }else{
+                      if (!_formKeyLogin.currentState.validate()) return;
+                      _formKeyLogin.currentState.save();
+                    }
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

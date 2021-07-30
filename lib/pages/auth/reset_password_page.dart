@@ -13,6 +13,8 @@ class ResetPasswordPage extends StatefulWidget {
 
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   bool _success = false;
   @override
   Widget build(BuildContext context) {
@@ -31,31 +33,38 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         ),
       ) : Padding(
         padding: const EdgeInsets.only(left: 25,right: 25,top: 60),
-        child:Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Please enter a new password',style: TextStyles.heading1,),
-            SizedBox(height: 16,),
-            AppTextField(
-              defaultValidators: [
-                DefaultValidators.VALID_PASSWORD,
-              ],
-              hint: 'Password',
-            ),
-            SizedBox(height: 14,),
-            AppTextField(
-              defaultValidators: [
-                DefaultValidators.VALID_PASSWORD,
-              ],
-              hint: 'Confirm Password',
-            ),
-            SizedBox(height: 14,),
-            AppButton(text: 'Reset', onPressed: (){
-              setState(() {
-                _success = true;
-              });
-            })
-          ],
+        child:Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Please enter a new password',style: TextStyles.heading1,),
+              SizedBox(height: 16,),
+              AppTextField(
+                defaultValidators: [
+                  DefaultValidators.VALID_PASSWORD,
+                ],
+                hint: 'Password',
+              ),
+              SizedBox(height: 14,),
+              AppTextField(
+                defaultValidators: [
+                  DefaultValidators.VALID_PASSWORD,
+                ],
+                hint: 'Confirm Password',
+              ),
+              SizedBox(height: 14,),
+              AppButton(text: 'Reset', onPressed: (){
+                if (!_formKey.currentState.validate()) {
+                  return null;
+                }
+                _formKey.currentState.save();
+                setState(() {
+                  _success = true;
+                });
+              })
+            ],
+          ),
         ),
       ),
     );

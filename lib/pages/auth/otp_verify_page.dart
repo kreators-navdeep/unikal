@@ -26,6 +26,7 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
   TextEditingController _controller3 = TextEditingController();
   TextEditingController _controller4 = TextEditingController();
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -51,6 +52,7 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Form(
+                  key: _formKey,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -160,6 +162,10 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
             width: SizeConfig.getScreenWidth(context),
             child: ElevatedButton(
                 onPressed: ()async{
+                  if (!_formKey.currentState.validate()) {
+                    return null;
+                  }
+                  _formKey.currentState.save();
                   Navigator.push(context, Routes.resetPassword());
                 },
                 style: ElevatedButton.styleFrom(

@@ -105,94 +105,92 @@ class _AppTextFieldState extends State<AppTextField> {
             borderRadius: BorderRadius.circular(12)
           ),
           child: widget.defaultValidators.contains(DefaultValidators.VALID_PASSWORD)
-              ? Expanded(
-                child: TextFormField(
-                    enableInteractiveSelection:
-                        widget.enableInteractiveSelection,
-                    onTap: widget.onTap,
-                    readOnly: widget.readOnly,
-                    initialValue: widget.initialValue,
-                    focusNode: widget.focusNode,
-                    enabled: widget.enabled,
-                    inputFormatters: formatters,
+              ? TextFormField(
+                  enableInteractiveSelection:
+                      widget.enableInteractiveSelection,
+                  onTap: widget.onTap,
+                  readOnly: widget.readOnly,
+                  initialValue: widget.initialValue,
+                  focusNode: widget.focusNode,
+                  enabled: widget.enabled,
+                  inputFormatters: formatters,
 
-                    validator: (widget.defaultValidators == null
-                        ? widget.validator
-                        : (val) {
-                            if (widget.defaultValidators
-                                    .contains(DefaultValidators.REQUIRED) &&
-                                val.isEmpty) {
-                              return "Please enter ${widget.hint}";
+                  validator: (widget.defaultValidators == null
+                      ? widget.validator
+                      : (val) {
+                          if (widget.defaultValidators
+                                  .contains(DefaultValidators.REQUIRED) &&
+                              val.isEmpty) {
+                            return "Please enter ${widget.hint}";
+                          }
+                          if (widget.defaultValidators
+                              .contains(DefaultValidators.VALID_EMAIL)) {
+                            if (!RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
+                                .hasMatch(val)) {
+                              return "${widget.placeholder ?? widget.hint} is not valid";
                             }
-                            if (widget.defaultValidators
-                                .contains(DefaultValidators.VALID_EMAIL)) {
-                              if (!RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
-                                  .hasMatch(val)) {
-                                return "${widget.placeholder} is not valid";
-                              }
+                          }
+                          if (widget.defaultValidators
+                              .contains(DefaultValidators.VALID_PASSWORD)) {
+                            if (val.length < 6 || val.length > 20) {
+                              return '${widget.placeholder ?? widget.hint} must be betweem 5 and 20 characters';
                             }
-                            if (widget.defaultValidators
-                                .contains(DefaultValidators.VALID_PASSWORD)) {
-                              if (val.length < 6 || val.length > 20) {
-                                return '${widget.placeholder} must be betweem 5 and 20 characters';
-                              }
-                            }
-                            if (widget.validator != null) {
-                              return widget.validator(val);
-                            }
-                            return null;
-                          }),
-                    textInputAction: widget.textInputAction,
-                    controller: widget.controller,
-                    obscureText: widget.defaultValidators
-                            .contains(DefaultValidators.VALID_PASSWORD)
-                        ? _isPasswordHidden
-                        : false,
-                    obscuringCharacter: '*',
-                    keyboardType: widget.textInputType,
-                    maxLines: widget.isMultiline ? widget.multiLines : 1,
-                    minLines: widget.isMultiline ? widget.multiLines : 1,
-                    onFieldSubmitted: widget.onFieldSubmitted,
-                    onSaved: widget.onSaved,
-                    onChanged: widget.onChanged,
-                    decoration: InputDecoration(
-                        labelText: widget.placeholder == null ? null:
-                        widget.defaultValidators
-                                .contains(DefaultValidators.REQUIRED)
-                            ? widget.placeholder + ' *'
-                            : widget.placeholder + ' ',
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
-                        suffixIcon: _togglePasswordButton(
-                          Icon(
-                            Icons.visibility,
-                          ),
-                          Icon(
-                            Icons.visibility_off,
-                          ),
+                          }
+                          if (widget.validator != null) {
+                            return widget.validator(val);
+                          }
+                          return null;
+                        }),
+                  textInputAction: widget.textInputAction,
+                  controller: widget.controller,
+                  obscureText: widget.defaultValidators
+                          .contains(DefaultValidators.VALID_PASSWORD)
+                      ? _isPasswordHidden
+                      : false,
+                  obscuringCharacter: '*',
+                  keyboardType: widget.textInputType,
+                  maxLines: widget.isMultiline ? widget.multiLines : 1,
+                  minLines: widget.isMultiline ? widget.multiLines : 1,
+                  onFieldSubmitted: widget.onFieldSubmitted,
+                  onSaved: widget.onSaved,
+                  onChanged: widget.onChanged,
+                  decoration: InputDecoration(
+                      labelText: widget.placeholder == null ? null:
+                      widget.defaultValidators
+                              .contains(DefaultValidators.REQUIRED)
+                          ? widget.placeholder + ' *'
+                          : widget.placeholder + ' ',
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
+                      suffixIcon: _togglePasswordButton(
+                        Icon(
+                          Icons.visibility,
                         ),
-                        prefixIcon: widget.prefix,
-                      fillColor: Colors.grey[400],
-                      hintText: widget.hint,
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color:Colors.grey, width: 2.0),
-                          borderRadius: BorderRadius.circular(12)
+                        Icon(
+                          Icons.visibility_off,
+                        ),
                       ),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(12)
-                      ),
-                      errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red, width: 1.0),
-                          borderRadius: BorderRadius.circular(12)
-                      ),
-                      focusedErrorBorder:  OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red, width: 1.0),
-                          borderRadius: BorderRadius.circular(12)
-                      )
-                        // labelStyle: TextFieldStyles.placeholderSmall
+                      prefixIcon: widget.prefix,
+                    fillColor: Colors.grey[400],
+                    hintText: widget.hint,
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color:Colors.grey, width: 2.0),
+                        borderRadius: BorderRadius.circular(12)
                     ),
-                    style: TextStyles.bodyText1Black),
-              )
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                        borderRadius: BorderRadius.circular(12)
+                    ),
+                    errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red, width: 1.0),
+                        borderRadius: BorderRadius.circular(12)
+                    ),
+                    focusedErrorBorder:  OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red, width: 1.0),
+                        borderRadius: BorderRadius.circular(12)
+                    )
+                      // labelStyle: TextFieldStyles.placeholderSmall
+                  ),
+                  style: TextStyles.bodyText1Black)
               : TextFormField(
                   onTap: widget.onTap,
                   readOnly: widget.readOnly,
@@ -213,13 +211,13 @@ class _AppTextFieldState extends State<AppTextField> {
                             if (!RegExp(
                                     r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
                                 .hasMatch(val)) {
-                              return "${widget.placeholder} is not valid";
+                              return "${widget.placeholder ?? widget.hint} is not valid";
                             }
                           }
                           if (widget.defaultValidators
                               .contains(DefaultValidators.VALID_PASSWORD)) {
                             if (val.length < 6 || val.length > 20) {
-                              return '${widget.placeholder} must be betweem 5 and 20 characters';
+                              return '${widget.placeholder ?? widget.hint} must be betweem 5 and 20 characters';
                             }
                           }
                           if (widget.validator != null) {
