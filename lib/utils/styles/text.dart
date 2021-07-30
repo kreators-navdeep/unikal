@@ -23,7 +23,7 @@ abstract class TextStyles {
   );
 
   static TextStyle get subTitle => TextStyle(
-        fontSize: 12.0,
+        fontSize: SizeConfig.textMultiplier * 1.6,
     color: Colors.grey[600]
       );
 

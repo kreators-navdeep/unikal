@@ -33,6 +33,7 @@ class AppTextField extends StatefulWidget {
   final void Function(String) onSaved;
   final void Function(String) onChanged;
   final bool showCharacter;
+  final String title;
   AppTextField({
     Key key,
     this.initialValue,
@@ -57,7 +58,8 @@ class AppTextField extends StatefulWidget {
     this.onTap,
     this.enableInteractiveSelection = true,
     this.showCharacter = false,
-    this.obscureText = false
+    this.obscureText = false,
+    this.title
   }) : super(key: key);
 
   @override
@@ -104,169 +106,178 @@ class _AppTextFieldState extends State<AppTextField> {
             color: Colors.white,
             borderRadius: BorderRadius.circular(12)
           ),
-          child: widget.defaultValidators.contains(DefaultValidators.VALID_PASSWORD)
-              ? TextFormField(
-                  enableInteractiveSelection:
-                      widget.enableInteractiveSelection,
-                  onTap: widget.onTap,
-                  readOnly: widget.readOnly,
-                  initialValue: widget.initialValue,
-                  focusNode: widget.focusNode,
-                  enabled: widget.enabled,
-                  inputFormatters: formatters,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              widget.title != null ? Padding(
+                padding: const EdgeInsets.only(bottom: 4,left: 4),
+                child: Text(widget.title,style: TextStyle(fontSize: SizeConfig.textMultiplier * 1.8),),
+              ) : SizedBox(),
+              widget.defaultValidators.contains(DefaultValidators.VALID_PASSWORD)
+                  ? TextFormField(
+                      enableInteractiveSelection:
+                          widget.enableInteractiveSelection,
+                      onTap: widget.onTap,
+                      readOnly: widget.readOnly,
+                      initialValue: widget.initialValue,
+                      focusNode: widget.focusNode,
+                      enabled: widget.enabled,
+                      inputFormatters: formatters,
 
-                  validator: (widget.defaultValidators == null
-                      ? widget.validator
-                      : (val) {
-                          if (widget.defaultValidators
-                                  .contains(DefaultValidators.REQUIRED) &&
-                              val.isEmpty) {
-                            return "Please enter ${widget.hint}";
-                          }
-                          if (widget.defaultValidators
-                              .contains(DefaultValidators.VALID_EMAIL)) {
-                            if (!RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
-                                .hasMatch(val)) {
-                              return "${widget.placeholder ?? widget.hint} is not valid";
-                            }
-                          }
-                          if (widget.defaultValidators
-                              .contains(DefaultValidators.VALID_PASSWORD)) {
-                            if (val.length < 6 || val.length > 20) {
-                              return '${widget.placeholder ?? widget.hint} must be betweem 5 and 20 characters';
-                            }
-                          }
-                          if (widget.validator != null) {
-                            return widget.validator(val);
-                          }
-                          return null;
-                        }),
-                  textInputAction: widget.textInputAction,
-                  controller: widget.controller,
-                  obscureText: widget.defaultValidators
-                          .contains(DefaultValidators.VALID_PASSWORD)
-                      ? _isPasswordHidden
-                      : false,
-                  obscuringCharacter: '*',
-                  keyboardType: widget.textInputType,
-                  maxLines: widget.isMultiline ? widget.multiLines : 1,
-                  minLines: widget.isMultiline ? widget.multiLines : 1,
-                  onFieldSubmitted: widget.onFieldSubmitted,
-                  onSaved: widget.onSaved,
-                  onChanged: widget.onChanged,
-                  decoration: InputDecoration(
-                      labelText: widget.placeholder == null ? null:
-                      widget.defaultValidators
-                              .contains(DefaultValidators.REQUIRED)
-                          ? widget.placeholder + ' *'
-                          : widget.placeholder + ' ',
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
-                      suffixIcon: _togglePasswordButton(
-                        Icon(
-                          Icons.visibility,
+                      validator: (widget.defaultValidators == null
+                          ? widget.validator
+                          : (val) {
+                              if (widget.defaultValidators
+                                      .contains(DefaultValidators.REQUIRED) &&
+                                  val.isEmpty) {
+                                return "Please enter ${widget.hint}";
+                              }
+                              if (widget.defaultValidators
+                                  .contains(DefaultValidators.VALID_EMAIL)) {
+                                if (!RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
+                                    .hasMatch(val)) {
+                                  return "${widget.placeholder ?? widget.hint} is not valid";
+                                }
+                              }
+                              if (widget.defaultValidators
+                                  .contains(DefaultValidators.VALID_PASSWORD)) {
+                                if (val.length < 6 || val.length > 20) {
+                                  return '${widget.placeholder ?? widget.hint} must be betweem 5 and 20 characters';
+                                }
+                              }
+                              if (widget.validator != null) {
+                                return widget.validator(val);
+                              }
+                              return null;
+                            }),
+                      textInputAction: widget.textInputAction,
+                      controller: widget.controller,
+                      obscureText: widget.defaultValidators
+                              .contains(DefaultValidators.VALID_PASSWORD)
+                          ? _isPasswordHidden
+                          : false,
+                      obscuringCharacter: '*',
+                      keyboardType: widget.textInputType,
+                      maxLines: widget.isMultiline ? widget.multiLines : 1,
+                      minLines: widget.isMultiline ? widget.multiLines : 1,
+                      onFieldSubmitted: widget.onFieldSubmitted,
+                      onSaved: widget.onSaved,
+                      onChanged: widget.onChanged,
+                      decoration: InputDecoration(
+                          labelText: widget.placeholder == null ? null:
+                          widget.defaultValidators
+                                  .contains(DefaultValidators.REQUIRED)
+                              ? widget.placeholder + ' *'
+                              : widget.placeholder + ' ',
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
+                          suffixIcon: _togglePasswordButton(
+                            Icon(
+                              Icons.visibility,
+                            ),
+                            Icon(
+                              Icons.visibility_off,
+                            ),
+                          ),
+                          prefixIcon: widget.prefix,
+                        fillColor: Colors.grey[400],
+                        hintText: widget.hint,
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color:Colors.grey, width: 2.0),
+                            borderRadius: BorderRadius.circular(12)
                         ),
-                        Icon(
-                          Icons.visibility_off,
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(12)
                         ),
+                        errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red, width: 1.0),
+                            borderRadius: BorderRadius.circular(12)
+                        ),
+                        focusedErrorBorder:  OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red, width: 1.0),
+                            borderRadius: BorderRadius.circular(12)
+                        )
+                          // labelStyle: TextFieldStyles.placeholderSmall
                       ),
-                      prefixIcon: widget.prefix,
-                    fillColor: Colors.grey[400],
-                    hintText: widget.hint,
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color:Colors.grey, width: 2.0),
-                        borderRadius: BorderRadius.circular(12)
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                        borderRadius: BorderRadius.circular(12)
-                    ),
-                    errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.red, width: 1.0),
-                        borderRadius: BorderRadius.circular(12)
-                    ),
-                    focusedErrorBorder:  OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.red, width: 1.0),
-                        borderRadius: BorderRadius.circular(12)
-                    )
-                      // labelStyle: TextFieldStyles.placeholderSmall
-                  ),
-                  style: TextStyles.bodyText1Black)
-              : TextFormField(
-                  onTap: widget.onTap,
-                  readOnly: widget.readOnly,
-                  initialValue: widget.initialValue,
-                  focusNode: widget.focusNode,
-                  enabled: widget.enabled,
-                  inputFormatters: formatters,
-                  validator: (widget.defaultValidators == null
-                      ? widget.validator
-                      : (val) {
-                          if (widget.defaultValidators
-                                  .contains(DefaultValidators.REQUIRED) &&
-                              val.isEmpty) {
-                            return "Please enter ${widget.hint}";
-                          }
-                          if (widget.defaultValidators
-                              .contains(DefaultValidators.VALID_EMAIL)) {
-                            if (!RegExp(
-                                    r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
-                                .hasMatch(val)) {
-                              return "${widget.placeholder ?? widget.hint} is not valid";
-                            }
-                          }
-                          if (widget.defaultValidators
-                              .contains(DefaultValidators.VALID_PASSWORD)) {
-                            if (val.length < 6 || val.length > 20) {
-                              return '${widget.placeholder ?? widget.hint} must be betweem 5 and 20 characters';
-                            }
-                          }
-                          if (widget.validator != null) {
-                            return widget.validator(val);
-                          }
-                          return null;
-                        }),
-                  textInputAction: widget.textInputAction,
-                  controller: widget.controller,
-                  obscureText: widget.obscureText,
-                  obscuringCharacter: '*',
-                  keyboardType: widget.textInputType,
-                  maxLines: widget.isMultiline ? widget.multiLines : 1,
-                  minLines: widget.isMultiline ? widget.multiLines : 1,
-                  onFieldSubmitted: widget.onFieldSubmitted,
-                  enableInteractiveSelection: widget.enableInteractiveSelection,
-                  onSaved: widget.onSaved,
-                  onChanged: widget.onChanged,
-                  decoration: InputDecoration(
-                      labelText : widget.placeholder == null ? null :
-                      widget.defaultValidators
-                              .contains(DefaultValidators.REQUIRED)
-                          ? widget.placeholder + ' *'
-                          : widget.placeholder + ' ',
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
-                      suffixIcon: widget.suffix,
-                      prefixIcon: widget.prefix,
-                      hintText: widget.hint,
-                    alignLabelWithHint: true,
-                      fillColor: Colors.grey[400],
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color:Colors.grey, width: 2.0),
-                        borderRadius: BorderRadius.circular(12)
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                        borderRadius: BorderRadius.circular(12)
-                    ),
-                    errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.red, width: 1.0),
-                        borderRadius: BorderRadius.circular(12)
-                    ),
-                    focusedErrorBorder:  OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.red, width: 1.0),
-                        borderRadius: BorderRadius.circular(12)
-                    )
-                      // labelStyle: TextFieldStyles.placeholderSmall
-                  ),
-                  style: TextStyles.bodyText1Black),
+                      style: TextStyles.bodyText1Black)
+                  : TextFormField(
+                      onTap: widget.onTap,
+                      readOnly: widget.readOnly,
+                      initialValue: widget.initialValue,
+                      focusNode: widget.focusNode,
+                      enabled: widget.enabled,
+                      inputFormatters: formatters,
+                      validator: (widget.defaultValidators == null
+                          ? widget.validator
+                          : (val) {
+                              if (widget.defaultValidators
+                                      .contains(DefaultValidators.REQUIRED) &&
+                                  val.isEmpty) {
+                                return "Please enter ${widget.hint}";
+                              }
+                              if (widget.defaultValidators
+                                  .contains(DefaultValidators.VALID_EMAIL)) {
+                                if (!RegExp(
+                                        r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
+                                    .hasMatch(val)) {
+                                  return "${widget.placeholder ?? widget.hint} is not valid";
+                                }
+                              }
+                              if (widget.defaultValidators
+                                  .contains(DefaultValidators.VALID_PASSWORD)) {
+                                if (val.length < 6 || val.length > 20) {
+                                  return '${widget.placeholder ?? widget.hint} must be betweem 5 and 20 characters';
+                                }
+                              }
+                              if (widget.validator != null) {
+                                return widget.validator(val);
+                              }
+                              return null;
+                            }),
+                      textInputAction: widget.textInputAction,
+                      controller: widget.controller,
+                      obscureText: widget.obscureText,
+                      obscuringCharacter: '*',
+                      keyboardType: widget.textInputType,
+                      maxLines: widget.isMultiline ? widget.multiLines : 1,
+                      minLines: widget.isMultiline ? widget.multiLines : 1,
+                      onFieldSubmitted: widget.onFieldSubmitted,
+                      enableInteractiveSelection: widget.enableInteractiveSelection,
+                      onSaved: widget.onSaved,
+                      onChanged: widget.onChanged,
+                      decoration: InputDecoration(
+                          labelText : widget.placeholder == null ? null :
+                          widget.defaultValidators
+                                  .contains(DefaultValidators.REQUIRED)
+                              ? widget.placeholder + ' *'
+                              : widget.placeholder + ' ',
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
+                          suffixIcon: widget.suffix,
+                          prefixIcon: widget.prefix,
+                          hintText: widget.hint,
+                        alignLabelWithHint: true,
+                          fillColor: Colors.grey[400],
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color:Colors.grey, width: 2.0),
+                            borderRadius: BorderRadius.circular(12)
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(12)
+                        ),
+                        errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red, width: 1.0),
+                            borderRadius: BorderRadius.circular(12)
+                        ),
+                        focusedErrorBorder:  OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red, width: 1.0),
+                            borderRadius: BorderRadius.circular(12)
+                        )
+                          // labelStyle: TextFieldStyles.placeholderSmall
+                      ),
+                      style: TextStyles.bodyText1Black),
+            ],
+          ),
         ),
         widget.showCharacter ? Padding(
           padding: const EdgeInsets.only(top:10.0),

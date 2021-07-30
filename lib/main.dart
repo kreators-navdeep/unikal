@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
                 themeMode: ThemeMode.light,
                 theme: ThemeData(
                     primaryColor: themeColor,
-                    fontFamily: 'Mont',
+                    fontFamily: 'Noto',
                     backgroundColor: Colors.white,
                     scaffoldBackgroundColor: Colors.white,
                 ),

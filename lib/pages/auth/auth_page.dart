@@ -240,6 +240,7 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
                       if (!_formKeyLogin.currentState.validate()) return;
                       _formKeyLogin.currentState.save();
                     }
+                    Navigator.pushReplacement(context, Routes.home());
                   },
                 ),
               ),
