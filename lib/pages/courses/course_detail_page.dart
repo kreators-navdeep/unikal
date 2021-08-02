@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:unikul/utils/Routes/routes.dart';
 import 'package:unikul/utils/size_config.dart';
 import 'package:unikul/utils/styles/text.dart';
 import 'package:unikul/utils/widgets/bottom_button.dart';
@@ -122,7 +123,9 @@ class _CourseDetailPageState extends State<CourseDetailPage> {
           ),
           BottomButton(
             title: 'Enquire',
-            onPressed: (){},
+            onPressed: (){
+              Navigator.push(context, Routes.enquiry());
+            },
           )
         ],
       ),

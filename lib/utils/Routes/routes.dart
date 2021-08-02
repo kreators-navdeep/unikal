@@ -6,6 +6,9 @@ import 'package:unikul/pages/auth/reset_password_page.dart';
 import 'package:unikul/pages/courses/course_detail_page.dart';
 import 'package:unikul/pages/home/enquiry_page.dart';
 import 'package:unikul/pages/home/home_page.dart';
+import 'package:unikul/pages/landing_page.dart';
+import 'package:unikul/pages/myEnquiry/my_enquiry_detail.dart';
+import 'package:unikul/pages/profile/edit_profile_page.dart';
 import 'package:unikul/pages/splash/splash_page.dart';
 
 class Routes {
@@ -13,6 +16,7 @@ class Routes {
       MaterialPageRoute(
         builder: (context) => page,
       );
+  static MaterialPageRoute landing() => _makeRoute(LandingPage());
 
   static MaterialPageRoute splash() => _makeRoute(SplashPage());
 
@@ -29,6 +33,12 @@ class Routes {
   static MaterialPageRoute enquiry() => _makeRoute(EnquiryPage());
 
   static MaterialPageRoute courseDetail({String title}) => _makeRoute(CourseDetailPage(title: title,));
+
+  static MaterialPageRoute editProfile() => _makeRoute(EditProfilePage());
+
+  static MaterialPageRoute myEnquiryDetail() => _makeRoute(MyEnquiryDetailPage());
+
+
 
 
 }

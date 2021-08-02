@@ -101,20 +101,23 @@ class _AppTextFieldState extends State<AppTextField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12)
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              widget.title != null ? Padding(
-                padding: const EdgeInsets.only(bottom: 4,left: 4),
-                child: Text(widget.title,style: TextStyle(fontSize: SizeConfig.textMultiplier * 1.8),),
-              ) : SizedBox(),
-              widget.defaultValidators.contains(DefaultValidators.VALID_PASSWORD)
-                  ? TextFormField(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            widget.title != null ? Padding(
+              padding: const EdgeInsets.only(bottom: 4,left: 4),
+              child: Text(widget.title,style: TextStyle(fontSize: SizeConfig.textMultiplier * 1.8),),
+            ) : SizedBox(),
+            widget.defaultValidators.contains(DefaultValidators.VALID_PASSWORD)
+                ? Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(spreadRadius: 0,blurRadius: 2,offset: Offset(0,2),color: Colors.grey[400])
+                      ]
+                  ),
+                  child: TextFormField(
                       enableInteractiveSelection:
                           widget.enableInteractiveSelection,
                       onTap: widget.onTap,
@@ -199,8 +202,17 @@ class _AppTextFieldState extends State<AppTextField> {
                         )
                           // labelStyle: TextFieldStyles.placeholderSmall
                       ),
-                      style: TextStyles.bodyText1Black)
-                  : TextFormField(
+                      style: TextStyles.bodyText1Black),
+                )
+                : Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(spreadRadius: 0,blurRadius: 2,offset: Offset(0,2),color: Colors.grey[400])
+                      ]
+                  ),
+                  child: TextFormField(
                       onTap: widget.onTap,
                       readOnly: widget.readOnly,
                       initialValue: widget.initialValue,
@@ -276,8 +288,8 @@ class _AppTextFieldState extends State<AppTextField> {
                           // labelStyle: TextFieldStyles.placeholderSmall
                       ),
                       style: TextStyles.bodyText1Black),
-            ],
-          ),
+                ),
+          ],
         ),
         widget.showCharacter ? Padding(
           padding: const EdgeInsets.only(top:10.0),

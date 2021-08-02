@@ -19,10 +19,11 @@ class _EnquiryPageState extends State<EnquiryPage> {
       body: Stack(
         children: [
           Container(
-            padding: const EdgeInsets.only(left: 15,top: 25,right: 15),
+            padding: const EdgeInsets.only(left: 15,right: 15),
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  SizedBox(height: 15,),
                   AppTextField(
                     defaultValidators: [],
                     title: 'Full Name',

@@ -34,6 +34,11 @@ class MyApp extends StatelessWidget {
                     fontFamily: 'Noto',
                     backgroundColor: Colors.white,
                     scaffoldBackgroundColor: Colors.white,
+                  accentColor: Color(0xFF40A8FF),
+                  iconTheme: IconThemeData(
+                    color: Color(0xFF1E201D),
+                    size: SizeConfig.imageSizeMultiplier * 5
+                  )
                 ),
                 home: SplashPage(),
                 title: 'Unikul',

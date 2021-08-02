@@ -10,6 +10,7 @@ abstract class TextStyles {
   static TextStyle get heading1 => TextStyle(
         fontSize: SizeConfig.textMultiplier * 2,
         fontWeight: FontWeight.w500,
+        color: Color(0xFF252B2D)
       );
 
   static TextStyle get heading2 => TextStyle(
@@ -20,11 +21,12 @@ abstract class TextStyles {
   static TextStyle get heading3 => TextStyle(
     fontSize: SizeConfig.textMultiplier * 3,
     fontWeight: FontWeight.w500,
+    color: Color(0xFF464646)
   );
 
   static TextStyle get subTitle => TextStyle(
         fontSize: SizeConfig.textMultiplier * 1.6,
-    color: Colors.grey[600]
+        color: Colors.grey[600]
       );
 
   static TextStyle get bodyText1Black => TextStyle(
