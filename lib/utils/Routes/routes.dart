@@ -5,9 +5,12 @@ import 'package:unikul/pages/auth/otp_verify_page.dart';
 import 'package:unikul/pages/auth/reset_password_page.dart';
 import 'package:unikul/pages/courses/course_detail_page.dart';
 import 'package:unikul/pages/home/enquiry_page.dart';
+import 'package:unikul/pages/home/enquiry_submitted_page.dart';
 import 'package:unikul/pages/home/home_page.dart';
 import 'package:unikul/pages/landing_page.dart';
-import 'package:unikul/pages/myEnquiry/my_enquiry_detail.dart';
+import 'package:unikul/pages/myEnquiry/fill_enrollment_form_page.dart';
+import 'package:unikul/pages/myEnquiry/my_enquiry_detail_page.dart';
+import 'package:unikul/pages/notification/notification_page.dart';
 import 'package:unikul/pages/profile/edit_profile_page.dart';
 import 'package:unikul/pages/splash/splash_page.dart';
 
@@ -30,7 +33,11 @@ class Routes {
 
   static MaterialPageRoute home() => _makeRoute(HomePage());
 
+  static MaterialPageRoute notification() => _makeRoute(NotificationPage());
+
   static MaterialPageRoute enquiry() => _makeRoute(EnquiryPage());
+
+  static MaterialPageRoute enquirySubmitted() => _makeRoute(EnquirySubmittedPage());
 
   static MaterialPageRoute courseDetail({String title}) => _makeRoute(CourseDetailPage(title: title,));
 
@@ -38,7 +45,7 @@ class Routes {
 
   static MaterialPageRoute myEnquiryDetail() => _makeRoute(MyEnquiryDetailPage());
 
-
+  static MaterialPageRoute enrollmentForm() => _makeRoute(FillEnrollmentFormPage());
 
 
 }

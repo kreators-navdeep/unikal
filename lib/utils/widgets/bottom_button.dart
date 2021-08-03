@@ -21,7 +21,7 @@ class _BottomButtonState extends State<BottomButton> {
         decoration: BoxDecoration(
             color: Theme.of(context).backgroundColor,
             boxShadow: [
-            BoxShadow(spreadRadius: 1,blurRadius: 5,color: Theme.of(context).shadowColor.withOpacity(0.5))
+            BoxShadow(spreadRadius: 1,blurRadius: 5,color: Theme.of(context).shadowColor.withOpacity(0.2))
           ]
         ),
         alignment: Alignment.center,

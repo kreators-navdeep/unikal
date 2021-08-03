@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:unikul/utils/Routes/routes.dart';
 import 'package:unikul/utils/size_config.dart';
 import 'package:unikul/utils/widgets/bottom_button.dart';
 import 'package:unikul/utils/widgets/data_container.dart';
@@ -78,7 +79,9 @@ class _MyEnquiryDetailPageState extends State<MyEnquiryDetailPage> {
           ),
           BottomButton(
             title: 'Proceed to fill other details',
-            onPressed: (){},
+            onPressed: (){
+              Navigator.push(context, Routes.enrollmentForm());
+            },
           )
         ],
       ),

@@ -61,7 +61,9 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.asset('assets/images/logo1.png',),
-            Icon(Icons.notifications_none_outlined,color: Colors.grey,)
+            IconButton(icon: Icon(Icons.notifications_none_outlined,color: Colors.grey,), onPressed: (){
+              Navigator.push(context, Routes.notification());
+            })
           ],
         ),
       ),

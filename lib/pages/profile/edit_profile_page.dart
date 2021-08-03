@@ -52,17 +52,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   title: 'Name',
                   defaultValidators: [],
                 ),
-                SizedBox(height: 12,),
                 AppTextField(
                   title: 'Email ID',
                   defaultValidators: [],
                 ),
-                SizedBox(height: 12,),
                 AppTextField(
                   title: 'Mobile Number',
                   defaultValidators: [],
                 ),
-                SizedBox(height: 12,),
               ],
             ),
             AppButton(text: 'Save', onPressed: (){
