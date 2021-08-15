@@ -14,7 +14,7 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
 
     Future.delayed(Duration(seconds: 2),(){
-      Navigator.pushReplacement(context, Routes.landing());
+      Navigator.pushReplacement(context, Routes.spLanding());
     });
   }
   @override
