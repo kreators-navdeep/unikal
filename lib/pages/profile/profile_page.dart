@@ -88,6 +88,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 SizedBox(height: 6,),
                 DataContainer(
+                  onPressed: (){
+                    Navigator.push(context, Routes.spSettings());
+                  },
                     padding: EdgeInsets.symmetric(vertical: 15,horizontal: 20),
                     data: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -5,6 +5,7 @@ import 'package:unikul/constants/constants.dart';
 import 'package:unikul/utils/Routes/routes.dart';
 import 'package:unikul/utils/size_config.dart';
 import 'package:unikul/utils/styles/text.dart';
+import 'package:unikul/utils/widgets/my_app_bar_2.dart';
 
 class SpHomePage extends StatefulWidget {
   @override
@@ -13,27 +14,38 @@ class SpHomePage extends StatefulWidget {
 
 class _SpHomePageState extends State<SpHomePage> {
 
-  _buildFields({String name,String max,String obtain}){
-    return  Container(
-      padding: const EdgeInsets.symmetric(vertical: 9,horizontal: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(name,
-            style: TextStyles.subTitle,
-          ),
-          Row(
-            children: [
-              Text(max,
+  _buildFields({String name,String max,String obtain,Color bgColor}){
+    return  FittedBox(
+      child: Container(
+        color: bgColor,
+        width: SizeConfig.getScreenWidth(context),
+        padding: const EdgeInsets.symmetric(vertical: 9,horizontal: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              width: SizeConfig.getScreenWidth(context) * 0.4 - 20,
+              child: Text(name,
                 style: TextStyles.subTitle,
               ),
-              SizedBox(width: 10,),
-              Text(obtain,
-                style: TextStyles.subTitle,
+            ),
+            Container(
+              width: SizeConfig.getScreenWidth(context) * 0.6 - 40,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(max,
+                    style: TextStyles.subTitle,
+                  ),
+                  SizedBox(width: 10,),
+                  Text(obtain,
+                    style: TextStyles.subTitle,
+                  ),
+                ],
               ),
-            ],
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -65,73 +77,11 @@ class _SpHomePageState extends State<SpHomePage> {
             SizedBox(height: 10,),
             Column(
               children: [
-                Container(
-                  color: Theme.of(context).accentColor.withOpacity(0.2),
-                  padding: const EdgeInsets.symmetric(vertical: 9,horizontal: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('INTERNAL',
-                        style: TextStyle(
-                            fontSize: SizeConfig.textMultiplier * 1.8,
-                            color: Theme.of(context).accentColor
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Text('MAX MARKS',
-                            style: TextStyle(
-                                fontSize: SizeConfig.textMultiplier * 1.8,
-                                color: Theme.of(context).accentColor
-                            ),
-                          ),
-                          SizedBox(width: 10,),
-                          Text('MARKS OBTAINED',
-                            style: TextStyle(
-                                fontSize: SizeConfig.textMultiplier * 1.8,
-                                color: Theme.of(context).accentColor
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
+                _buildHeading(title:'INTERNAL'),
                 _buildFields(name: 'Internal Session 1',max: "20.0",obtain: "0.0"),
                 _buildFields(name: 'Internal Session 2',max: "20.0",obtain: "0.0"),
 
-                Container(
-                  color: Theme.of(context).accentColor.withOpacity(0.2),
-                  padding: const EdgeInsets.symmetric(vertical: 9,horizontal: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Assignment',
-                        style: TextStyle(
-                            fontSize: SizeConfig.textMultiplier * 1.8,
-                            color: Theme.of(context).accentColor
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Text('MAX MARKS',
-                            style: TextStyle(
-                                fontSize: SizeConfig.textMultiplier * 1.8,
-                                color: Theme.of(context).accentColor
-                            ),
-                          ),
-                          SizedBox(width: 10,),
-                          Text('MARKS OBTAINED',
-                            style: TextStyle(
-                                fontSize: SizeConfig.textMultiplier * 1.8,
-                                color: Theme.of(context).accentColor
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
+                _buildHeading(title:'ASSIGNMENT'),
                 _buildFields(name: 'Assignment 1',max: "30.0",obtain: "0.0"),
 
               ],
@@ -142,20 +92,105 @@ class _SpHomePageState extends State<SpHomePage> {
     );
   }
 
+  _buildHeading({String title}){
+    return Container(
+      color: Theme.of(context).accentColor.withOpacity(0.2),
+      padding: const EdgeInsets.symmetric(vertical: 9,horizontal: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: SizeConfig.getScreenWidth(context) * 0.4 - 20,
+            child: Text(title,
+              style: TextStyle(
+                  fontSize: SizeConfig.textMultiplier * 1.5,
+                  color: Theme.of(context).accentColor
+              ),
+            ),
+          ),
+          Container(
+            width: SizeConfig.getScreenWidth(context) * 0.6 - 40,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text('MAX MARKS',
+                  style: TextStyle(
+                      fontSize: SizeConfig.textMultiplier * 1.5,
+                      color: Theme.of(context).accentColor
+                  ),
+                ),
+                SizedBox(width: 10,),
+                Text('MARKS OBTAINED',
+                  style: TextStyle(
+                      fontSize: SizeConfig.textMultiplier * 1.5,
+                      color: Theme.of(context).accentColor
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  _buildRecommended(){
+    return Container(
+      width: SizeConfig.getScreenWidth(context),
+      height: 140,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+          itemBuilder: (ctx,index){
+         return ClipRRect(
+           borderRadius: BorderRadius.circular(12),
+           child: Container(
+             width: 200,
+             height: 140,
+             decoration: BoxDecoration(
+               border: Border.all(width: 0.8,color: Colors.grey),
+               borderRadius: BorderRadius.circular(12),
+             ),
+             child: Stack(
+               children: [
+                 Image.asset('assets/images/banner1.png'),
+                 Positioned(
+                   bottom: 0,
+                   child: Container(
+                     decoration: BoxDecoration(
+                       color: Colors.white,
+                       borderRadius: BorderRadius.only(bottomLeft: Radius.circular(12),bottomRight: Radius.circular(12)),
+                     ),
+                     height: 70,
+                     width: 200,
+                     padding: const EdgeInsets.only(left: 6),
+                     child: Column(
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                         Text('MBA',style: TextStyles.heading1,),
+                         SizedBox(height: 4,),
+                         Text('University of London',style: TextStyles.heading1,)
+                       ],
+                     ),
+                   )
+                 )
+               ],
+             ),
+           ),
+         );
+        },
+        separatorBuilder: (ctx,index){
+            return SizedBox(width: 8,);
+           },
+        itemCount: 6
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Theme.of(context).backgroundColor,
-        title: Image.asset('assets/images/logo1.png',),
-        actions: [
-          SvgPicture.asset('assets/icons/locate.svg'),
-          IconButton(icon: Icon(Icons.notifications_none_outlined,color: Colors.grey,), onPressed: (){
-            Navigator.push(context, Routes.notification());
-          })
-        ],
-      ),
+      appBar: MyAppBar2(),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -248,7 +283,9 @@ class _SpHomePageState extends State<SpHomePage> {
                     ],
                   ),
                   SizedBox(height: 12,),
-                  _buildProjectPlanning()
+                  _buildProjectPlanning(),
+                  SizedBox(height: 14,),
+                  _buildRecommended()
                 ],
               ),
             )

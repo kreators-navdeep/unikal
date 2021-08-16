@@ -12,6 +12,8 @@ import 'package:unikul/pages/myEnquiry/fill_enrollment_form_page.dart';
 import 'package:unikul/pages/myEnquiry/my_enquiry_detail_page.dart';
 import 'package:unikul/pages/notification/notification_page.dart';
 import 'package:unikul/pages/profile/edit_profile_page.dart';
+import 'package:unikul/pages/settings/notification_settings.dart';
+import 'package:unikul/pages/settings/sp_settings_page.dart';
 import 'package:unikul/pages/sp_landing_page.dart';
 import 'package:unikul/pages/splash/splash_page.dart';
 
@@ -50,6 +52,11 @@ class Routes {
   static MaterialPageRoute myEnquiryDetail() => _makeRoute(MyEnquiryDetailPage());
 
   static MaterialPageRoute enrollmentForm() => _makeRoute(FillEnrollmentFormPage());
+
+  static MaterialPageRoute spSettings() => _makeRoute(SpSettingsPage());
+
+  static MaterialPageRoute notificationSettings() => _makeRoute(NotificationSettings());
+
 
 
 }

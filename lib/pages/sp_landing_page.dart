@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:unikul/pages/StudentPortal/attendance/attandence_page.dart';
+import 'package:unikul/pages/StudentPortal/internal_marks/internal_marks_page.dart';
 import 'package:unikul/pages/StudentPortal/spHome/sp_home_page.dart';
 import 'package:unikul/pages/home/home_page.dart';
 import 'package:unikul/pages/myEnquiry/my_enquiry_page.dart';
@@ -36,7 +38,8 @@ class _SPLandingPageState extends State<SPLandingPage> {
         ),
         body: _selectedIndex == 0
             ? SpHomePage() : _selectedIndex == 1
-            ? MyEnquiryPage() : _selectedIndex == 2
+            ? AttendancePage() : _selectedIndex == 2
+            ? InternalMarksPage() : _selectedIndex == 3
             ? ProfilePage() : SizedBox()
     );
   }
