@@ -238,10 +238,10 @@ class _SpHomePageState extends State<SpHomePage> {
                         child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(4),
-                            color: themeGreen.withOpacity(0.2),
-                            border: Border.all(color: themeGreen,width: 0.2)
+                            color: themeGreen.withOpacity(0.1),
+                            border: Border.all(color: themeGreen,width: 0.1)
                           ),
-                          height: 160,
+                          height: 120,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -261,11 +261,11 @@ class _SpHomePageState extends State<SpHomePage> {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4),
-                            color: Theme.of(context).primaryColor.withOpacity(0.2),
+                            color: Theme.of(context).primaryColor.withOpacity(0.1),
                               border: Border.all(color: Theme.of(context).primaryColor,width: 0.2)
 
                           ),
-                          height: 160,
+                          height: 120,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:unikul/pages/ao_landing_page.dart';
 import 'package:unikul/pages/auth/auth_page.dart';
 import 'package:unikul/pages/auth/forgot_password_page.dart';
 import 'package:unikul/pages/auth/otp_verify_page.dart';
 import 'package:unikul/pages/auth/reset_password_page.dart';
 import 'package:unikul/pages/courses/course_detail_page.dart';
+import 'package:unikul/pages/faculty_landing_page.dart';
+import 'package:unikul/pages/help/help_page.dart';
 import 'package:unikul/pages/home/enquiry_page.dart';
 import 'package:unikul/pages/home/enquiry_submitted_page.dart';
 import 'package:unikul/pages/home/home_page.dart';
@@ -25,6 +28,11 @@ class Routes {
   static MaterialPageRoute landing() => _makeRoute(LandingPage());
 
   static MaterialPageRoute spLanding() => _makeRoute(SPLandingPage());
+
+  static MaterialPageRoute aoLanding() => _makeRoute(AOLandingPage());
+
+  static MaterialPageRoute facultyLanding() => _makeRoute(FacultyLandingPage());
+
 
 
   static MaterialPageRoute splash() => _makeRoute(SplashPage());
@@ -57,6 +65,7 @@ class Routes {
 
   static MaterialPageRoute notificationSettings() => _makeRoute(NotificationSettings());
 
+  static MaterialPageRoute help() => _makeRoute(HelpPage());
 
 
 }
