@@ -273,7 +273,6 @@ class _FillEnrollmentFormPageState extends State<FillEnrollmentFormPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Transport Application',style: TextStyles.heading1,),
-        SizedBox(height: 6,),
         SizedBox(height: 20,),
         Row(
           children: [

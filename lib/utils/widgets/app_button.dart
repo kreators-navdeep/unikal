@@ -51,20 +51,13 @@ class AppButton extends StatelessWidget {
             color: bgColor,
             onPressed: onPressed,
             child: Row(
-              mainAxisAlignment: suffixIcon != null
-                  ? MainAxisAlignment.spaceBetween
-                  : MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   text,
                   style: TextStyle(fontWeight: FontWeight.w600,color: Colors.white,fontSize: SizeConfig.textMultiplier * 2.2),
                   textAlign: TextAlign.center,
                 ),
-                Icon(
-                  suffixIcon,
-                  // color: ButtonStyles.iconColor,
-                  // size: ButtonStyles.iconSize,
-                )
               ],
             ),
           ),

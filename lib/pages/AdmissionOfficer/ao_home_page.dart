@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:unikul/constants/constants.dart';
 import 'package:unikul/pages/AdmissionOfficer/search_bottomSheet.dart';
+import 'package:unikul/utils/Routes/routes.dart';
 import 'package:unikul/utils/size_config.dart';
 import 'package:unikul/utils/styles/text.dart';
 import 'package:unikul/utils/widgets/app_drop_down.dart';
@@ -21,85 +22,90 @@ class _AOHomePageState extends State<AOHomePage> {
     return Card(
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 14),
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Pandya Niyati Vijaykumar',style: TextStyle(fontSize: SizeConfig.textMultiplier * 2.2,fontWeight: FontWeight.w500),),
-                    SizedBox(height: 4,),
-                    Text('APP202101996',style: TextStyle(fontSize: SizeConfig.textMultiplier * 1.8,fontWeight: FontWeight.w500),),
-                    SizedBox(height: 4,),
-                    Text('91-9725939763',style: TextStyles.subTitle,),
-                  ],
-                ),
-                OutlinedButton(
-                    onPressed: (){},
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: themeGreen.withOpacity(0.2),
+      child: InkWell(
+        onTap: (){
+          Navigator.push(context, Routes.studentDetails(title: 'Pandya Niyati Vijaykumar'));
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 14),
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Pandya Niyati Vijaykumar',style: TextStyle(fontSize: SizeConfig.textMultiplier * 2.2,fontWeight: FontWeight.w500),),
+                      SizedBox(height: 4,),
+                      Text('APP202101996',style: TextStyle(fontSize: SizeConfig.textMultiplier * 1.8,fontWeight: FontWeight.w500),),
+                      SizedBox(height: 4,),
+                      Text('91-9725939763',style: TextStyles.subTitle,),
+                    ],
+                  ),
+                  OutlinedButton(
+                      onPressed: (){},
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: themeGreen.withOpacity(0.2),
 
-                    ),
-                    child: Text('FALL',
-                      style: TextStyle(
-                          fontSize: SizeConfig.textMultiplier * 2,
-                          color: themeGreen
                       ),
-                    )
-                )
-              ],
-            ),
-            SizedBox(height: 10,),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Under Graduate AY 2020-2021',style: TextStyles.subTitle,),
-                    SizedBox(height: 4,),
-                    RichText(text: TextSpan(
-                      text: 'Admission Type : ',
-                      style: TextStyles.subTitle,
-                      children: [
-                        TextSpan(text: 'Regular',style: TextStyles.heading1)
-                      ]
-                    )),
-                    SizedBox(height: 4,),
-                    Text('Applied on : 18 Jan 2021',style: TextStyles.subTitle,),
-                  ],
-                ),
-                Column(
-                  children: [
-                    AppDropDown(
-                      width: SizeConfig.getScreenWidth(context) * 0.35,
-                      onChanged: (val){},
-                      value: pendingValue,
-                      hint: 'Pending AH A',
-                      items: [
-                        DropdownMenuItem(child: Text('Pending AH A'))
-                      ],
-                    ),
-                    SizedBox(height: 8,),
-                    AppDropDown(
-                      width: SizeConfig.getScreenWidth(context) * 0.35,
-                      hint: 'Assigned to',
-                      onChanged: (val){},
-                      items: [
-                        DropdownMenuItem(child: Text('Assigned to'))
-                      ],
-                    )
-                  ],
-                )
-              ],
-            )
-          ],
+                      child: Text('FALL',
+                        style: TextStyle(
+                            fontSize: SizeConfig.textMultiplier * 2,
+                            color: themeGreen
+                        ),
+                      )
+                  )
+                ],
+              ),
+              SizedBox(height: 10,),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Under Graduate AY 2020-2021',style: TextStyles.subTitle,),
+                      SizedBox(height: 4,),
+                      RichText(text: TextSpan(
+                        text: 'Admission Type : ',
+                        style: TextStyles.subTitle,
+                        children: [
+                          TextSpan(text: 'Regular',style: TextStyles.heading1)
+                        ]
+                      )),
+                      SizedBox(height: 4,),
+                      Text('Applied on : 18 Jan 2021',style: TextStyles.subTitle,),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      AppDropDown(
+                        width: SizeConfig.getScreenWidth(context) * 0.35,
+                        onChanged: (val){},
+                        value: pendingValue,
+                        hint: 'Pending AH A',
+                        items: [
+                          DropdownMenuItem(child: Text('Pending AH A'))
+                        ],
+                      ),
+                      SizedBox(height: 8,),
+                      AppDropDown(
+                        width: SizeConfig.getScreenWidth(context) * 0.35,
+                        hint: 'Assigned to',
+                        onChanged: (val){},
+                        items: [
+                          DropdownMenuItem(child: Text('Assigned to'))
+                        ],
+                      )
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -162,6 +168,7 @@ class _AOHomePageState extends State<AOHomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Applications',style: TextStyles.heading2,),
+                  SizedBox(height: 8,),
                   Column(
                     children: List.generate(10, (index) {
                       return _buildApplication();

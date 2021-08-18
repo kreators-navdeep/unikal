@@ -3,10 +3,12 @@ import 'package:unikul/utils/size_config.dart';
 
 class AppDropDown2 extends StatefulWidget {
   final String title;
-  final List<DropdownMenuItem> items;
+  final List<String> items;
   final void Function(dynamic) onChanged;
+  final dynamic value;
+  final String hint;
 
-  AppDropDown2({this.title,this.items,this.onChanged});
+  AppDropDown2({this.title,this.items,this.onChanged,this.value,this.hint = ''});
   @override
   _AppDropDown2State createState() => _AppDropDown2State();
 }
@@ -24,7 +26,7 @@ class _AppDropDown2State extends State<AppDropDown2> {
             child: Text(widget.title,style: TextStyle(fontSize: SizeConfig.textMultiplier * 1.8),),
           ) : SizedBox(),
           Container(
-            width: SizeConfig.getScreenWidth(context),
+            width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
@@ -34,13 +36,19 @@ class _AppDropDown2State extends State<AppDropDown2> {
                   BoxShadow(spreadRadius: 0,blurRadius: 2,offset: Offset(0,2),color: Colors.grey[400])
                 ]
             ),
-            child: DropdownButton(
+            child: DropdownButton<String>(
               isExpanded: true,
               onChanged: widget.onChanged,
+              value: widget.value,
               icon: Icon(Icons.keyboard_arrow_down_rounded),
               underline: SizedBox(),
-              hint: Text(''),
-              items: widget.items,
+              hint: Text(widget.hint),
+              items: widget.items.map((String e){
+                return DropdownMenuItem<String>(
+                  value: e,
+                    child: Text(e)
+                );
+              }).toList(),
             ),
           ),
         ],

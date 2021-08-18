@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:unikul/pages/AdmissionOfficer/studentDetails/student_details_page.dart';
 import 'package:unikul/pages/ao_landing_page.dart';
 import 'package:unikul/pages/auth/auth_page.dart';
 import 'package:unikul/pages/auth/forgot_password_page.dart';
@@ -54,6 +55,9 @@ class Routes {
   static MaterialPageRoute enquirySubmitted() => _makeRoute(EnquirySubmittedPage());
 
   static MaterialPageRoute courseDetail({String title}) => _makeRoute(CourseDetailPage(title: title,));
+
+  static MaterialPageRoute studentDetails({String title}) => _makeRoute(StudentDetailsPage(title: title,));
+
 
   static MaterialPageRoute editProfile() => _makeRoute(EditProfilePage());
 

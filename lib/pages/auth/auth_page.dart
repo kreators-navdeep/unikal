@@ -4,6 +4,7 @@ import 'package:unikul/utils/Routes/routes.dart';
 import 'package:unikul/utils/size_config.dart';
 import 'package:unikul/utils/styles/text.dart';
 import 'package:unikul/utils/widgets/app_button.dart';
+import 'package:unikul/utils/widgets/app_drop_down2.dart';
 import 'package:unikul/utils/widgets/textfield.dart';
 
 class AuthPage extends StatefulWidget {
@@ -19,11 +20,14 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
   TabController _controller;
   int _selectedIndex = 0;
 
+  dynamic _value;
 
   List<Widget> list = [
     Tab(child: Text('Create Account',style: TextStyle(fontSize: SizeConfig.textMultiplier * 2.4),)),
     Tab(child: Text('Login',style: TextStyle(fontSize: SizeConfig.textMultiplier * 2.4))),
   ];
+
+  List<String> users = ['Applicant','Admission officer','Student portal','Faculty'];
 
   @override
   void initState() {
@@ -198,8 +202,50 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: SizeConfig.getScreenHeight(context) * 0.1,),
-                    Image.asset('assets/images/logo.png',height: SizeConfig.getScreenHeight(context) * 0.15,),
+                    SizedBox(height: SizeConfig.getScreenHeight(context) * 0.08,),
+                    Row(
+                      children: [
+                        Image.asset('assets/images/logo.png',height: SizeConfig.getScreenHeight(context) * 0.14,),
+                        Column(
+                          children: [
+                            Container(
+                              width: 150,
+                              child: DropdownButton<String>(
+                                value: _value,
+                                onChanged: (val){
+                                  print(val);
+                                  setState(() {
+                                    _value = val;
+                                  });
+                                },
+                                items: users.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child:  Text(value),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                            AppButton(text: 'login', onPressed: (){
+
+                              switch(_value){
+                                case 'Applicant' : Navigator.push(context, Routes.landing());
+                                break;
+
+                                case 'Admission officer' : Navigator.push(context, Routes.aoLanding());
+                                break;
+
+                                case 'Student portal' : Navigator.push(context, Routes.spLanding());
+                                break;
+
+                                case 'Faculty' : Navigator.push(context, Routes.facultyLanding());
+                                break;
+                              }
+                            })
+                          ],
+                        ),
+                      ],
+                    ),
                     SizedBox(height: 40,),
                     Container(
                       height: SizeConfig.getScreenHeight(context) * 0.06,
@@ -212,7 +258,7 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
                     ),
                     Container(
                       width: SizeConfig.getScreenWidth(context),
-                      height: SizeConfig.getScreenHeight(context) * 0.59 - 40,
+                      height: SizeConfig.getScreenHeight(context) * 0.62 - 40,
                       child: TabBarView(
                         controller: _controller,
                         physics: NeverScrollableScrollPhysics(),
