@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:unikul/constants/constants.dart';
+import 'package:unikul/utils/Routes/routes.dart';
 import 'package:unikul/utils/size_config.dart';
 import 'package:unikul/utils/styles/text.dart';
 import 'package:unikul/utils/widgets/app_button.dart';
@@ -19,36 +20,41 @@ class _FacultyHomePageState extends State<FacultyHomePage> {
     return Card(
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 14),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Pandya Niyati Vijaykumar',style: TextStyles.heading1,),
-                SizedBox(height: 4,),
-                Text('Reg No: 190106029',style: TextStyles.subTitle,),
-                SizedBox(height: 4,),
-                Text('BTech - Mechanical Engineering',style: TextStyle(color: Colors.grey[800],fontSize: SizeConfig.textMultiplier * 1.6),)
-              ],
-            ),
-            OutlinedButton(
-                onPressed: (){},
-                style: OutlinedButton.styleFrom(
-                  backgroundColor: Theme.of(context).accentColor.withOpacity(0.2),
+      child: InkWell(
+        onTap: (){
+          Navigator.push(context, Routes.studentInfo(title: 'Pandya Niyati Vijaykumar'));
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 14),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Pandya Niyati Vijaykumar',style: TextStyles.heading1,),
+                  SizedBox(height: 4,),
+                  Text('Reg No: 190106029',style: TextStyles.subTitle,),
+                  SizedBox(height: 4,),
+                  Text('BTech - Mechanical Engineering',style: TextStyle(color: Colors.grey[800],fontSize: SizeConfig.textMultiplier * 1.6),)
+                ],
+              ),
+              OutlinedButton(
+                  onPressed: (){},
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: Theme.of(context).accentColor.withOpacity(0.2),
 
-                ),
-                child: Text('WINTER',
-                  style: TextStyle(
-                      fontSize: SizeConfig.textMultiplier * 2,
-                      color: Theme.of(context).accentColor
                   ),
-                )
-            )
-          ],
+                  child: Text('WINTER',
+                    style: TextStyle(
+                        fontSize: SizeConfig.textMultiplier * 2,
+                        color: Theme.of(context).accentColor
+                    ),
+                  )
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -1,5 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:unikul/pages/AdmissionOfficer/studentDetails/student_details_page.dart';
+import 'package:unikul/pages/Faculty/InternalMarks/publish_internal_marks_page.dart';
+import 'package:unikul/pages/Faculty/facultyHome/studentInfo/student_info_page.dart';
 import 'package:unikul/pages/ao_landing_page.dart';
 import 'package:unikul/pages/auth/auth_page.dart';
 import 'package:unikul/pages/auth/forgot_password_page.dart';
@@ -58,6 +61,8 @@ class Routes {
 
   static MaterialPageRoute studentDetails({String title}) => _makeRoute(StudentDetailsPage(title: title,));
 
+  static MaterialPageRoute studentInfo({String title}) => _makeRoute(StudentInfoPage(title: title,));
+
 
   static MaterialPageRoute editProfile() => _makeRoute(EditProfilePage());
 
@@ -70,6 +75,17 @@ class Routes {
   static MaterialPageRoute notificationSettings() => _makeRoute(NotificationSettings());
 
   static MaterialPageRoute help() => _makeRoute(HelpPage());
+
+
+  ///FACULTY
+
+  static MaterialPageRoute publishInternalMarks({
+    String title,
+    String subject,
+    String course,
+    String section
+  }) => _makeRoute(PublishInternalMarksPage(title: title,course: course,section: section,subject: subject,));
+
 
 
 }
