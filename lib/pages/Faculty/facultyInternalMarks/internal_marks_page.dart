@@ -24,19 +24,24 @@ class _InternalMarksPageState extends State<InternalMarksPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: themeGreen),
-                color: themeGreen.withOpacity(0.1)
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Pending Internal Marks',style: TextStyles.heading1,),
-                  Text('09',style: TextStyle(fontSize: SizeConfig.textMultiplier * 2.5,fontWeight: FontWeight.w600,color: themeGreen),)
-                ],
+            GestureDetector(
+              onTap: (){
+                Navigator.push(context, Routes.pendingMarks());
+              },
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: themeGreen,width: 0.5 ),
+                  color: themeGreen.withOpacity(0.1)
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Pending Internal Marks',style: TextStyles.heading1,),
+                    Text('09',style: TextStyle(fontSize: SizeConfig.textMultiplier * 2.5,fontWeight: FontWeight.w600,color: themeGreen),)
+                  ],
+                ),
               ),
             ),
             SizedBox(height: 16,),
@@ -85,7 +90,7 @@ class _InternalMarksPageState extends State<InternalMarksPage> {
                               OutlinedButton(
                                   onPressed: (){},
                                   style: OutlinedButton.styleFrom(
-                                    backgroundColor: Theme.of(context).accentColor.withOpacity(0.2),
+                                    backgroundColor: Theme.of(context).accentColor.withOpacity(0.1),
 
                                   ),
                                   child: Text('INTERNAL SESSION 1',

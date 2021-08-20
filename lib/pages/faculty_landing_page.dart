@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:unikul/pages/Faculty/InternalMarks/internal_marks_page.dart';
+import 'package:unikul/pages/Faculty/FacultyInternalMarks/internal_marks_page.dart';
+import 'package:unikul/pages/Faculty/facultyAttendance/faculty_attendance_page.dart';
 import 'package:unikul/pages/Faculty/facultyHome/faculty_home_page.dart';
 import 'package:unikul/utils/widgets/my_app_bar.dart';
 
@@ -34,7 +35,9 @@ class _FacultyLandingPageState extends State<FacultyLandingPage> {
           },
         ),
         body: _selectedIndex == 0
-            ?  FacultyHomePage() : _selectedIndex == 2 ? InternalMarksPage() :SizedBox()
+            ? FacultyHomePage() : _selectedIndex == 1
+            ? FacultyAttendancePage() : _selectedIndex == 2
+            ? InternalMarksPage() : SizedBox()
     );
   }
 }

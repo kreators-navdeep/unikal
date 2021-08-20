@@ -1,8 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:unikul/pages/AdmissionOfficer/studentDetails/student_details_page.dart';
-import 'package:unikul/pages/Faculty/InternalMarks/publish_internal_marks_page.dart';
+import 'package:unikul/pages/Faculty/facultyAttendance/attendance_report_page.dart';
+import 'package:unikul/pages/Faculty/facultyAttendance/class_attendance_summary_page.dart';
+
 import 'package:unikul/pages/Faculty/facultyHome/studentInfo/student_info_page.dart';
+import 'package:unikul/pages/Faculty/facultyInternalMarks/pending_marks_page.dart';
+import 'package:unikul/pages/Faculty/facultyInternalMarks/publish_internal_marks_page.dart';
 import 'package:unikul/pages/ao_landing_page.dart';
 import 'package:unikul/pages/auth/auth_page.dart';
 import 'package:unikul/pages/auth/forgot_password_page.dart';
@@ -86,6 +90,11 @@ class Routes {
     String section
   }) => _makeRoute(PublishInternalMarksPage(title: title,course: course,section: section,subject: subject,));
 
+  static MaterialPageRoute pendingMarks() => _makeRoute(PendingMarksPage());
+
+  static MaterialPageRoute classAttendanceSummary() => _makeRoute(ClassAttendanceSummaryPage());
+
+  static MaterialPageRoute attendanceReport() => _makeRoute(AttendanceReportPage());
 
 
 }

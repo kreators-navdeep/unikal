@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:unikul/utils/size_config.dart';
 import 'package:unikul/utils/styles/text.dart';
 import 'package:unikul/utils/widgets/appCheckBox.dart';
+import 'package:unikul/utils/widgets/app_button.dart';
+import 'package:unikul/utils/widgets/app_outline_botton.dart';
 import 'package:unikul/utils/widgets/data_container.dart';
 import 'package:unikul/utils/widgets/my_app_bar.dart';
 import 'package:unikul/utils/widgets/my_app_bar_2.dart';
@@ -101,51 +103,78 @@ class _PublishInternalMarksPageState extends State<PublishInternalMarksPage> {
       appBar: MyAppBar(
         title: widget.title,
       ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(widget.course,style: TextStyles.subTitle,),
-              SizedBox(height: 6,),
-              Text(widget.subject,style: TextStyles.bodyText1BlackMedium,),
-              SizedBox(height: 6,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Stack(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.section,style: TextStyles.subTitle,),
-                  Text('Strength : 50',style: TextStyles.subTitle,),
-                  Text('Max Marks : 100',style: TextStyles.subTitle,)
+                  Text(widget.course,style: TextStyles.subTitle,),
+                  SizedBox(height: 6,),
+                  Text(widget.subject,style: TextStyles.bodyText1BlackMedium,),
+                  SizedBox(height: 6,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(widget.section,style: TextStyles.subTitle,),
+                      Text('Strength : 50',style: TextStyles.subTitle,),
+                      Text('Max Marks : 100',style: TextStyles.subTitle,)
+                    ],
+                  ),
+                  SizedBox(height: 16,),
+                  DataContainer(
+                    data: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('23 Nov 2020',style: TextStyles.bodyText1BlackLarge,),
+                        Icon(Icons.calendar_today_outlined)
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 25,),
+                  Row(
+                    children: [
+                      AppCheckBox(),
+                      SizedBox(width: 16,),
+                      Text('All Present',style: TextStyles.bodyText1BlackLarge,)
+                    ],
+                  ),
+                  SizedBox(height: 25,),
+                  Column(
+                    children: List.generate(5, (index){
+                      return _buildMarksBox();
+                    }),
+                  ),
+                  SizedBox(height: 100,)
                 ],
               ),
-              SizedBox(height: 16,),
-              DataContainer(
-                data: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('23 Nov 2020',style: TextStyles.bodyText1BlackLarge,),
-                    Icon(Icons.calendar_today_outlined)
-                  ],
-                ),
-              ),
-              SizedBox(height: 25,),
-              Row(
-                children: [
-                  AppCheckBox(),
-                  SizedBox(width: 16,),
-                  Text('All Present',style: TextStyles.bodyText1BlackLarge,)
-                ],
-              ),
-              SizedBox(height: 25,),
-              Column(
-                children: List.generate(5, (index){
-                  return _buildMarksBox();
-                }),
-              )
-            ],
+            ),
           ),
-        ),
+          Positioned(
+            bottom: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 10,spreadRadius: 0.1,color: Colors.grey[300]
+                  )
+                ]
+              ),
+              width: SizeConfig.getScreenWidth(context),
+              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 16),
+              child: Row(
+                children: [
+                  Expanded(child: AppOutlineButton(text: 'Save',onPressed: (){},)),
+                  SizedBox(width: 20,),
+                  Expanded(child: AppButton(text: 'Submit', onPressed: (){}))
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
