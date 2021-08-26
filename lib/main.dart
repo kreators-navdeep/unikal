@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
 import 'package:unikul/constants/constants.dart';
 import 'package:unikul/pages/splash/splash_page.dart';
@@ -7,7 +8,7 @@ import 'package:unikul/utils/Api/apis.dart';
 import 'package:unikul/utils/size_config.dart';
 
 void main() {
-  runApp(MyApp());
+  return runApp(Phoenix(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

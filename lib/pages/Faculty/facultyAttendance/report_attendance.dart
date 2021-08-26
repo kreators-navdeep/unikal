@@ -10,6 +10,31 @@ class ReportAttendance extends StatefulWidget {
 }
 
 class _ReportAttendanceState extends State<ReportAttendance> {
+
+  DateTime selectedTime =DateTime.now();
+
+  TextEditingController _fromDate = TextEditingController();
+  TextEditingController _endDate = TextEditingController();
+
+
+  Future<Null> _selectTime(BuildContext context,TextEditingController controller) async {
+    final DateTime picked_s = await showDatePicker(
+        context: context,
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2099),
+        initialDate: selectedTime, builder: (BuildContext context, Widget child) {
+      return MediaQuery(
+        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+        child: child,
+      );});
+
+    if (picked_s != null && picked_s != selectedTime )
+      setState(() {
+        selectedTime = picked_s;
+        controller.text = selectedTime.toLocal().toString();
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -53,18 +78,26 @@ class _ReportAttendanceState extends State<ReportAttendance> {
               Container(
                 width: SizeConfig.getScreenWidth(context) * 0.42,
                 child: AppTextField(
+                  onTap: (){
+                    _selectTime(context,_fromDate);
+                  },
+                  controller: _fromDate,
                   title: 'From date',
                   defaultValidators: [],
-                  enabled: false,
+                  readOnly: true,
                   suffix: Icon(Icons.calendar_today_outlined),
                 ),
               ),
               Container(
                 width: SizeConfig.getScreenWidth(context) * 0.42,
                 child: AppTextField(
+                  onTap: (){
+                    _selectTime(context,_endDate);
+                  },
+                  controller: _endDate,
                   title: 'To date',
                   defaultValidators: [],
-                  enabled: false,
+                  readOnly: true,
                   suffix: Icon(Icons.calendar_today_outlined),
                 ),
               ),

@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:unikul/utils/Routes/routes.dart';
 import 'package:unikul/utils/size_config.dart';
 import 'package:unikul/utils/styles/text.dart';
 import 'package:unikul/utils/widgets/data_container.dart';
 import 'package:unikul/utils/widgets/my_app_bar.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:unikul/utils/widgets/my_app_bar_2.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -12,20 +17,25 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  File profileImage;
+  final picker = ImagePicker();
+
+  Future getProfileImage() async {
+    final pickedFile =
+    await picker.getImage(source: ImageSource.gallery, imageQuality: 50);
+
+    setState(() {
+      if (pickedFile != null) {
+        profileImage = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Theme.of(context).backgroundColor,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Image.asset('assets/images/logo1.png',),
-            Icon(Icons.notifications_none_outlined,color: Colors.grey,)
-          ],
-        ),
-      ),
+      appBar: MyAppBar2(),
       body: Padding(
         padding: const EdgeInsets.only(left: 15,right: 15,top: 10),
         child: Column(
@@ -34,27 +44,38 @@ class _ProfilePageState extends State<ProfilePage> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Stack(
-                  children: [
-                    Image.asset('assets/images/avatar.png'),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Card(
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                GestureDetector(
+                  onTap: (){
+                    getProfileImage();
+                  },
+                  child: Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
                         child: Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            borderRadius:  BorderRadius.circular(50),
-                            color: Color(0xFF92DE38),
-                          ),
-                          child: Icon(Icons.add_rounded,color: Colors.white,size: 16,),
-                        ),
+                            height: 100,
+                            width: 100,
+                            child: profileImage != null ? Image.file(profileImage) :Image.asset('assets/images/avatar.png')),
                       ),
-                    )
-                  ],
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Card(
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                          child: Container(
+                            width: 20,
+                            height: 20,
+                            decoration: BoxDecoration(
+                              borderRadius:  BorderRadius.circular(50),
+                              color: Color(0xFF92DE38),
+                            ),
+                            child: Icon(Icons.add_rounded,color: Colors.white,size: 16,),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 SizedBox(height: 20,),
                 DataContainer(text: 'Aisha Parihar',title: 'Name',),
@@ -108,7 +129,9 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             Container(
               child: TextButton(
-                onPressed: (){},
+                onPressed: (){
+                  Phoenix.rebirth(context);
+                },
                 child: Row(
                   children: [
                     Icon(Icons.logout,color: Color(0xFF464646)),

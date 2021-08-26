@@ -58,6 +58,38 @@ class _FinanceDetailsState extends State<FinanceDetails> {
     );
   }
 
+
+  _buildDiscountSheet(){
+    return Container(
+      height: SizeConfig.getScreenHeight(context) * 0.8,
+      padding: const EdgeInsets.only(left: 15,right: 15,top: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('SELECT DISCOUNT',style: TextStyles.heading1,),
+              IconButton(icon: Icon(Icons.cancel_outlined,size: 30,color: Theme.of(context).disabledColor,), onPressed: (){
+                Navigator.pop(context);
+              })
+            ],
+          ),
+          SizedBox(height: 25,),
+          Container(
+            height: SizeConfig.getScreenHeight(context) * 0.65,
+            child: ListView.separated(itemBuilder: (ctx,index){
+              return Text('Additional 5%',style: TextStyle(fontSize: SizeConfig.textMultiplier * 2.6),);
+            }, separatorBuilder: (ctx,index){
+              return SizedBox(height: 20,);
+            }, itemCount: 10),
+          )
+        ],
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -81,7 +113,18 @@ class _FinanceDetailsState extends State<FinanceDetails> {
             child: Row(
               children: [
                 ElevatedButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(25)),
+                        ),
+                        builder: (builder){
+                          return _buildDiscountSheet();
+                        }
+                    );
+                  },
                   child: Icon(Icons.add_rounded,size: SizeConfig.imageSizeMultiplier * 12,),
                   style: ElevatedButton.styleFrom(
                     shape: CircleBorder(),

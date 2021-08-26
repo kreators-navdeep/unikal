@@ -10,7 +10,7 @@ class AppCheckBox extends StatefulWidget {
 
 class _AppCheckBoxState extends State<AppCheckBox> {
 
-
+  bool _value = false;
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +26,14 @@ class _AppCheckBoxState extends State<AppCheckBox> {
             border: Border.all(color: Theme.of(context).primaryColor)
         ),
         child: Checkbox(
-          value: true,
+          value: _value,
           checkColor: Theme.of(context).primaryColor,
           activeColor: Colors.white,
-          onChanged: (val){},
+          onChanged: (val){
+            setState(() {
+              _value = val;
+            });
+          },
         ),
       ),
     );

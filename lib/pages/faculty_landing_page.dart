@@ -5,6 +5,8 @@ import 'package:unikul/pages/Faculty/facultyAttendance/faculty_attendance_page.d
 import 'package:unikul/pages/Faculty/facultyHome/faculty_home_page.dart';
 import 'package:unikul/utils/widgets/my_app_bar.dart';
 
+import 'profile/profile_page.dart';
+
 class FacultyLandingPage extends StatefulWidget {
   @override
   _FacultyLandingPageState createState() => _FacultyLandingPageState();
@@ -37,7 +39,7 @@ class _FacultyLandingPageState extends State<FacultyLandingPage> {
         body: _selectedIndex == 0
             ? FacultyHomePage() : _selectedIndex == 1
             ? FacultyAttendancePage() : _selectedIndex == 2
-            ? InternalMarksPage() : SizedBox()
+            ? InternalMarksPage() : _selectedIndex == 3 ? ProfilePage() : SizedBox()
     );
   }
 }
