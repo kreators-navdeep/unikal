@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:unikul/utils/size_config.dart';
 import 'package:unikul/utils/styles/text.dart';
 import 'package:unikul/utils/widgets/appCheckBox.dart';
@@ -22,6 +23,7 @@ class PublishInternalMarksPage extends StatefulWidget {
 
 class _PublishInternalMarksPageState extends State<PublishInternalMarksPage> {
 
+  String selectedDate = DateFormat('dd-MMM-yyyy').format(DateTime.now()) ;
 
   _buildMarksBox(){
     return Card(
@@ -125,10 +127,13 @@ class _PublishInternalMarksPageState extends State<PublishInternalMarksPage> {
                   ),
                   SizedBox(height: 16,),
                   DataContainer(
+                    onPressed: (){
+                      _selectDate(context);
+                    },
                     data: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('23 Nov 2020',style: TextStyles.bodyText1BlackLarge,),
+                        Text(selectedDate,style: TextStyles.bodyText1BlackLarge,),
                         Icon(Icons.calendar_today_outlined)
                       ],
                     ),
@@ -177,5 +182,22 @@ class _PublishInternalMarksPageState extends State<PublishInternalMarksPage> {
         ],
       ),
     );
+  }
+
+  Future<Null> _selectDate(BuildContext context) async {
+    final DateTime picked_s = await showDatePicker(
+        context: context,
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2099),
+        initialDate: DateTime.now(), builder: (BuildContext context, Widget child) {
+      return MediaQuery(
+        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+        child: child,
+      );});
+
+    if (picked_s != null)
+      setState(() {
+        selectedDate = DateFormat('dd-MMM-yyyy').format(picked_s);
+      });
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:unikul/utils/Routes/routes.dart';
 import 'package:unikul/utils/size_config.dart';
 import 'package:unikul/utils/widgets/app_button.dart';
@@ -28,10 +29,10 @@ class _SummaryAttendanceState extends State<SummaryAttendance> {
         child: child,
       );});
 
-    if (picked_s != null && picked_s != selectedTime )
+    if (picked_s != null)
       setState(() {
         selectedTime = picked_s;
-        controller.text = selectedTime.toLocal().toString();
+        controller.text = DateFormat('dd-MMM-yyyy').format(selectedTime);
       });
   }
 

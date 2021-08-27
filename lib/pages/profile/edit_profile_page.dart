@@ -37,60 +37,63 @@ class _EditProfilePageState extends State<EditProfilePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 15,right: 15,top: 25,bottom: 25),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              children: [
-                GestureDetector(
-                  onTap: (){
-                    getProfileImage();
-                  },
-                  child: Stack(
-                    children: [
-                      ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: profileImage != null ? Image.file(profileImage,height: 100,width: 100,) : Image.asset('assets/images/bca.png',width: 100,height: 100,fit: BoxFit.cover,)),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Card(
-                          elevation: 2,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-                          child: Container(
-                            width: 20,
-                            height: 20,
-                            decoration: BoxDecoration(
-                              borderRadius:  BorderRadius.circular(50),
-                              color: Color(0xFF92DE38),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  GestureDetector(
+                    onTap: (){
+                      getProfileImage();
+                    },
+                    child: Stack(
+                      children: [
+                        ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: profileImage != null ? Image.file(profileImage,height: 100,width: 100,) : Image.asset('assets/images/bca.png',width: 100,height: 100,fit: BoxFit.cover,)),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Card(
+                            elevation: 2,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                            child: Container(
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                borderRadius:  BorderRadius.circular(50),
+                                color: Color(0xFF92DE38),
+                              ),
+                              child: Icon(Icons.add_rounded,color: Colors.white,size: 16,),
                             ),
-                            child: Icon(Icons.add_rounded,color: Colors.white,size: 16,),
                           ),
                         ),
-                      ),
 
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(height: 45,),
-                AppTextField(
-                  title: 'Name',
-                  defaultValidators: [],
-                ),
-                AppTextField(
-                  title: 'Email ID',
-                  defaultValidators: [],
-                ),
-                AppTextField(
-                  title: 'Mobile Number',
-                  defaultValidators: [],
-                ),
-              ],
-            ),
-            AppButton(text: 'Save', onPressed: (){
-              Navigator.pop(context);
-            },bgColor: Theme.of(context).accentColor,)
-          ],
+                  SizedBox(height: 45,),
+                  AppTextField(
+                    title: 'Name',
+                    defaultValidators: [],
+                  ),
+                  AppTextField(
+                    title: 'Email ID',
+                    defaultValidators: [],
+                  ),
+                  AppTextField(
+                    title: 'Mobile Number',
+                    defaultValidators: [],
+                  ),
+                ],
+              ),
+              SizedBox(height: 20,),
+              AppButton(text: 'Save', onPressed: (){
+                Navigator.pop(context);
+              },bgColor: Theme.of(context).accentColor,)
+            ],
+          ),
         ),
       ),
     );

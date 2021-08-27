@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unikul/utils/size_config.dart';
 import 'package:unikul/utils/styles/text.dart';
+import 'package:unikul/utils/widgets/appCheckBox.dart';
 import 'package:unikul/utils/widgets/app_button.dart';
 import 'package:unikul/utils/widgets/my_app_bar.dart';
 import 'package:unikul/utils/widgets/textfield.dart';
@@ -208,10 +209,7 @@ class _FillEnrollmentFormPageState extends State<FillEnrollmentFormPage> {
         SizedBox(height: 20,),
         Row(
           children: [
-            Checkbox(
-              value: false,
-              onChanged: (val){},
-
+            AppCheckBox(
             ),
             SizedBox(width: 12,),
             Text('Hostel Required?',style: TextStyle(fontWeight: FontWeight.w300,fontSize: SizeConfig.textMultiplier * 2),)
@@ -242,11 +240,7 @@ class _FillEnrollmentFormPageState extends State<FillEnrollmentFormPage> {
         SizedBox(height: 20,),
         Row(
           children: [
-            Checkbox(
-              value: false,
-              onChanged: (val){},
-
-            ),
+            AppCheckBox(),
             SizedBox(width: 12,),
             Text('Visa Required?',style: TextStyle(fontWeight: FontWeight.w300,fontSize: SizeConfig.textMultiplier * 2),)
           ],
@@ -276,11 +270,7 @@ class _FillEnrollmentFormPageState extends State<FillEnrollmentFormPage> {
         SizedBox(height: 20,),
         Row(
           children: [
-            Checkbox(
-              value: false,
-              onChanged: (val){},
-
-            ),
+            AppCheckBox(),
             SizedBox(width: 12,),
             Text('Transport Required?',style: TextStyle(fontWeight: FontWeight.w300,fontSize: SizeConfig.textMultiplier * 2),)
           ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unikul/utils/size_config.dart';
 import 'package:unikul/utils/styles/text.dart';
+import 'package:unikul/utils/widgets/appCheckBox.dart';
 import 'package:unikul/utils/widgets/app_button.dart';
 import 'package:unikul/utils/widgets/app_outline_botton.dart';
 import 'package:unikul/utils/widgets/textfield.dart';
@@ -32,11 +33,7 @@ class _VisaDetailsState extends State<VisaDetails> {
           SizedBox(height: 20,),
           Row(
             children: [
-              Checkbox(
-                value: false,
-                onChanged: (val){},
-
-              ),
+              AppCheckBox(),
               SizedBox(width: 12,),
               Text('Visa Required?',style: TextStyle(fontWeight: FontWeight.w300,fontSize: SizeConfig.textMultiplier * 2),)
             ],
