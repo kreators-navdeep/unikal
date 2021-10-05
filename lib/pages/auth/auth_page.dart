@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:unikul/utils/Api/apis.dart';
 import 'package:unikul/utils/Routes/routes.dart';
 import 'package:unikul/utils/size_config.dart';
 import 'package:unikul/utils/styles/text.dart';
 import 'package:unikul/utils/widgets/app_button.dart';
 import 'package:unikul/utils/widgets/app_drop_down2.dart';
+import 'package:unikul/utils/widgets/showLoading.dart';
 import 'package:unikul/utils/widgets/textfield.dart';
 
 class AuthPage extends StatefulWidget {
@@ -18,7 +22,10 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
   final GlobalKey<FormState> _formKeySignUp = GlobalKey<FormState>();
 
   TabController _controller;
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
+
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passController = TextEditingController();
 
   dynamic _value;
 
@@ -143,34 +150,37 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
         key: _formKeyLogin,
         child: Column(
           children: [
+            Text('LogIn',style: TextStyle(color:Colors.grey[800],fontWeight: FontWeight.w800,fontSize: SizeConfig.textMultiplier * 3),),
             SizedBox(height: 20,),
-            _buildSocialLoginButton(text: 'Continue with Linkedin',icon: 'linkedin'),
-            SizedBox(height: 14,),
-            _buildSocialLoginButton(text: 'Continue with Google',icon: 'google'),
-            SizedBox(height: 20,),
-            Row(
-              children: [
-                Expanded(child: Container(height: 1,color: Theme.of(context).dividerColor,)),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 35),
-                  child: Text('or',style: TextStyle(fontSize: SizeConfig.textMultiplier * 1.8),),
-                ),
-                Expanded(child: Container(height: 1,color: Theme.of(context).dividerColor,)),
-              ],
-            ),
+            // _buildSocialLoginButton(text: 'Continue with Linkedin',icon: 'linkedin'),
+            // SizedBox(height: 14,),
+            // _buildSocialLoginButton(text: 'Continue with Google',icon: 'google'),
+            // SizedBox(height: 20,),
+            // Row(
+            //   children: [
+            //     Expanded(child: Container(height: 1,color: Theme.of(context).dividerColor,)),
+            //     Padding(
+            //       padding: const EdgeInsets.symmetric(horizontal: 35),
+            //       child: Text('or',style: TextStyle(fontSize: SizeConfig.textMultiplier * 1.8),),
+            //     ),
+            //     Expanded(child: Container(height: 1,color: Theme.of(context).dividerColor,)),
+            //   ],
+            // ),
             SizedBox(height: 20,),
             AppTextField(
               defaultValidators: [
-                DefaultValidators.VALID_EMAIL,
+                DefaultValidators.REQUIRED,
               ],
+              controller: _emailController,
               prefix: Icon(Icons.email_outlined),
               hint: 'Email',
             ),
             SizedBox(height: 14,),
             AppTextField(
               defaultValidators: [
-                DefaultValidators.VALID_PASSWORD
+                DefaultValidators.REQUIRED
               ],
+              controller: _passController,
               prefix: Icon(Icons.lock_outline_rounded),
               hint: 'Password',
             ),
@@ -204,89 +214,100 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
                   children: [
                     SizedBox(height: SizeConfig.getScreenHeight(context) * 0.08,),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset('assets/images/logo.png',height: SizeConfig.getScreenHeight(context) * 0.14,),
-                        Column(
-                          children: [
-                            Container(
-                              width: 150,
-                              child: DropdownButton<String>(
-                                value: _value,
-                                onChanged: (val){
-                                  print(val);
-                                  setState(() {
-                                    _value = val;
-                                  });
-                                },
-                                items: users.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child:  Text(value),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                            AppButton(text: 'login', onPressed: (){
-
-                              switch(_value){
-                                case 'Applicant' : Navigator.push(context, Routes.landing());
-                                break;
-
-                                case 'Admission officer' : Navigator.push(context, Routes.aoLanding());
-                                break;
-
-                                case 'Student portal' : Navigator.push(context, Routes.spLanding());
-                                break;
-
-                                case 'Faculty' : Navigator.push(context, Routes.facultyLanding());
-                                break;
-                              }
-                            })
-                          ],
-                        ),
+                        // Column(
+                        //   children: [
+                        //     Container(
+                        //       width: 150,
+                        //       child: DropdownButton<String>(
+                        //         value: _value,
+                        //         onChanged: (val){
+                        //           print(val);
+                        //           setState(() {
+                        //             _value = val;
+                        //           });
+                        //         },
+                        //         items: users.map((String value) {
+                        //           return DropdownMenuItem<String>(
+                        //             value: value,
+                        //             child:  Text(value),
+                        //           );
+                        //         }).toList(),
+                        //       ),
+                        //     ),
+                        //     AppButton(text: 'login', onPressed: (){
+                        //
+                        //       switch(_value){
+                        //         case 'Applicant' : Navigator.push(context, Routes.landing());
+                        //         break;
+                        //
+                        //         case 'Admission officer' : Navigator.push(context, Routes.aoLanding());
+                        //         break;
+                        //
+                        //         case 'Student portal' : Navigator.push(context, Routes.spLanding());
+                        //         break;
+                        //
+                        //         case 'Faculty' : Navigator.push(context, Routes.facultyLanding());
+                        //         break;
+                        //       }
+                        //     })
+                        //   ],
+                        // ),
                       ],
                     ),
                     SizedBox(height: 40,),
-                    Container(
-                      height: SizeConfig.getScreenHeight(context) * 0.06,
-                      width: SizeConfig.getScreenWidth(context),
-                      child: TabBar(
-                        controller: _controller,
-                        tabs: list,
-                        labelColor: Colors.black,
-                      ),
-                    ),
-                    Container(
-                      width: SizeConfig.getScreenWidth(context),
-                      height: SizeConfig.getScreenHeight(context) * 0.62 - 40,
-                      child: TabBarView(
-                        controller: _controller,
-                        physics: NeverScrollableScrollPhysics(),
-                        children: [
-                          _buildCreateAccount(),
-                          _buildLogin()
-                        ],
-                      ),
-                    )
+                    _buildLogin()
+                    // Container(
+                    //   height: SizeConfig.getScreenHeight(context) * 0.06,
+                    //   width: SizeConfig.getScreenWidth(context),
+                    //   child: TabBar(
+                    //     controller: _controller,
+                    //     tabs: list,
+                    //     labelColor: Colors.black,
+                    //   ),
+                    // ),
+                    // Container(
+                    //   width: SizeConfig.getScreenWidth(context),
+                    //   height: SizeConfig.getScreenHeight(context) * 0.62 - 40,
+                    //   child: TabBarView(
+                    //     controller: _controller,
+                    //     physics: NeverScrollableScrollPhysics(),
+                    //     children: [
+                    //       _buildCreateAccount(),
+                    //       _buildLogin()
+                    //     ],
+                    //   ),
+                    // )
                   ],
                 ),
               ),
               Container(
                 height: SizeConfig.getScreenHeight(context) * 0.1,
                 width: SizeConfig.getScreenWidth(context),
-                child: AppButton(
-                  text: _selectedIndex == 0 ?'Sign Up': 'Login',
-                  isFullWidth: true,
-                  onPressed: (){
-                    FocusScope.of(context).unfocus();
-                    if(_selectedIndex == 0){
-                      if (!_formKeySignUp.currentState.validate()) return;
-                      _formKeyLogin.currentState.save();
-                    }else{
-                      if (!_formKeyLogin.currentState.validate()) return;
-                      _formKeyLogin.currentState.save();
-                    }
-                    Navigator.pushReplacement(context, Routes.home());
+                child: Consumer<Api>(
+                  builder: (ctx,api,child){
+                    return api.isLoading ? ShowLoading(): AppButton(
+                      text: _selectedIndex == 0 ?'Sign Up': 'Login',
+                      isFullWidth: true,
+                      onPressed: ()async{
+                        FocusScope.of(context).unfocus();
+                        if(_selectedIndex == 0){
+                          if (!_formKeySignUp.currentState.validate()) return;
+                          _formKeyLogin.currentState.save();
+                        }else{
+                          if (!_formKeyLogin.currentState.validate()) return;
+                          _formKeyLogin.currentState.save();
+
+                          final res = await api.login(userId: _emailController.text.trim(),password: _passController.text.trim());
+                          Fluttertoast.showToast(msg: res['message'], toastLength: Toast.LENGTH_SHORT);
+                          if(res['status'] == 'Sucesss'){
+                            Navigator.pushReplacement(context, Routes.landing());
+                          }
+                        }
+                      },
+                    );
                   },
                 ),
               ),
