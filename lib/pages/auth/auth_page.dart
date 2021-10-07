@@ -24,7 +24,7 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
   TabController _controller;
   int _selectedIndex = 1;
 
-  TextEditingController _emailController = TextEditingController();
+  TextEditingController _userIdController = TextEditingController();
   TextEditingController _passController = TextEditingController();
 
   dynamic _value;
@@ -171,14 +171,14 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
               defaultValidators: [
                 DefaultValidators.REQUIRED,
               ],
-              controller: _emailController,
-              prefix: Icon(Icons.email_outlined),
-              hint: 'Email',
+              controller: _userIdController,
+              prefix: Icon(Icons.person_outline),
+              hint: 'User ID',
             ),
             SizedBox(height: 14,),
             AppTextField(
               defaultValidators: [
-                DefaultValidators.REQUIRED
+                DefaultValidators.VALID_PASSWORD
               ],
               controller: _passController,
               prefix: Icon(Icons.lock_outline_rounded),
@@ -200,119 +200,91 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Container(
-        padding: const EdgeInsets.only(left: 25,right: 25),
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              Container(
-                height: SizeConfig.getScreenHeight(context) * 0.9,
-                width: SizeConfig.getScreenWidth(context),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(height: SizeConfig.getScreenHeight(context) * 0.08,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+        height: SizeConfig.getScreenHeight(context),
+        child: Consumer<Api>(
+          builder: (ctx,api,child){
+            return Stack(
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(left: 25,right: 25),
+                  child: SingleChildScrollView(
+                    child: Column(
                       children: [
-                        Image.asset('assets/images/logo.png',height: SizeConfig.getScreenHeight(context) * 0.14,),
-                        // Column(
-                        //   children: [
-                        //     Container(
-                        //       width: 150,
-                        //       child: DropdownButton<String>(
-                        //         value: _value,
-                        //         onChanged: (val){
-                        //           print(val);
-                        //           setState(() {
-                        //             _value = val;
-                        //           });
-                        //         },
-                        //         items: users.map((String value) {
-                        //           return DropdownMenuItem<String>(
-                        //             value: value,
-                        //             child:  Text(value),
-                        //           );
-                        //         }).toList(),
-                        //       ),
-                        //     ),
-                        //     AppButton(text: 'login', onPressed: (){
-                        //
-                        //       switch(_value){
-                        //         case 'Applicant' : Navigator.push(context, Routes.landing());
-                        //         break;
-                        //
-                        //         case 'Admission officer' : Navigator.push(context, Routes.aoLanding());
-                        //         break;
-                        //
-                        //         case 'Student portal' : Navigator.push(context, Routes.spLanding());
-                        //         break;
-                        //
-                        //         case 'Faculty' : Navigator.push(context, Routes.facultyLanding());
-                        //         break;
-                        //       }
-                        //     })
-                        //   ],
-                        // ),
+                        Container(
+                          height: SizeConfig.getScreenHeight(context) * 0.9,
+                          width: SizeConfig.getScreenWidth(context),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // SizedBox(height: SizeConfig.getScreenHeight(context) * 0.06,),
+                              Image.asset('assets/images/logo.png',height: SizeConfig.getScreenHeight(context) * 0.14,),
+                              SizedBox(height: SizeConfig.getScreenHeight(context) * 0.1,),
+                              _buildLogin(),
+                              SizedBox(height: SizeConfig.getScreenHeight(context) * 0.05,),
+                              // Container(
+                              //   height: SizeConfig.getScreenHeight(context) * 0.06,
+                              //   width: SizeConfig.getScreenWidth(context),
+                              //   child: TabBar(
+                              //     controller: _controller,
+                              //     tabs: list,
+                              //     labelColor: Colors.black,
+                              //   ),
+                              // ),
+                              // Container(
+                              //   width: SizeConfig.getScreenWidth(context),
+                              //   height: SizeConfig.getScreenHeight(context) * 0.62 - 40,
+                              //   child: TabBarView(
+                              //     controller: _controller,
+                              //     physics: NeverScrollableScrollPhysics(),
+                              //     children: [
+                              //       _buildCreateAccount(),
+                              //       _buildLogin()
+                              //     ],
+                              //   ),
+                              // )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: SizeConfig.getScreenHeight(context) * 0.1,
+                          width: SizeConfig.getScreenWidth(context),
+                          child: AppButton(
+                            text: _selectedIndex == 0 ?'Sign Up': 'Login',
+                            isFullWidth: true,
+                            onPressed: ()async{
+                              FocusScope.of(context).unfocus();
+                              if(_selectedIndex == 0){
+                                if (!_formKeySignUp.currentState.validate()) return;
+                                _formKeyLogin.currentState.save();
+                              }else{
+                                if (!_formKeyLogin.currentState.validate()) return;
+                                _formKeyLogin.currentState.save();
+
+                                final res = await api.login(userId: _userIdController.text.trim(),password: _passController.text.trim());
+                                Fluttertoast.showToast(msg: res['message'], toastLength: Toast.LENGTH_SHORT);
+                                if(res['status'].toString().toLowerCase() == 'success'){
+                                  Navigator.pushReplacement(context, Routes.spLanding());
+                                }
+                              }
+                            },
+                          ),
+                        ),
                       ],
                     ),
-                    SizedBox(height: 40,),
-                    _buildLogin()
-                    // Container(
-                    //   height: SizeConfig.getScreenHeight(context) * 0.06,
-                    //   width: SizeConfig.getScreenWidth(context),
-                    //   child: TabBar(
-                    //     controller: _controller,
-                    //     tabs: list,
-                    //     labelColor: Colors.black,
-                    //   ),
-                    // ),
-                    // Container(
-                    //   width: SizeConfig.getScreenWidth(context),
-                    //   height: SizeConfig.getScreenHeight(context) * 0.62 - 40,
-                    //   child: TabBarView(
-                    //     controller: _controller,
-                    //     physics: NeverScrollableScrollPhysics(),
-                    //     children: [
-                    //       _buildCreateAccount(),
-                    //       _buildLogin()
-                    //     ],
-                    //   ),
-                    // )
-                  ],
+                  ),
                 ),
-              ),
-              Container(
-                height: SizeConfig.getScreenHeight(context) * 0.1,
-                width: SizeConfig.getScreenWidth(context),
-                child: Consumer<Api>(
-                  builder: (ctx,api,child){
-                    return api.isLoading ? ShowLoading(): AppButton(
-                      text: _selectedIndex == 0 ?'Sign Up': 'Login',
-                      isFullWidth: true,
-                      onPressed: ()async{
-                        FocusScope.of(context).unfocus();
-                        if(_selectedIndex == 0){
-                          if (!_formKeySignUp.currentState.validate()) return;
-                          _formKeyLogin.currentState.save();
-                        }else{
-                          if (!_formKeyLogin.currentState.validate()) return;
-                          _formKeyLogin.currentState.save();
-
-                          final res = await api.login(userId: _emailController.text.trim(),password: _passController.text.trim());
-                          Fluttertoast.showToast(msg: res['message'], toastLength: Toast.LENGTH_SHORT);
-                          if(res['status'] == 'Sucesss'){
-                            Navigator.pushReplacement(context, Routes.landing());
-                          }
-                        }
-                      },
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
+                if(api.isLoading)
+                Container(
+                  width: SizeConfig.getScreenWidth(context),
+                  height: SizeConfig.getScreenHeight(context),
+                  color: Colors.grey.withOpacity(0.5),
+                  child: ShowLoading()
+                )
+              ],
+            );
+          },
         ),
       ),
     );

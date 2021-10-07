@@ -34,6 +34,7 @@ dependencies:
   flutter_phoenix: ^1.0.0
   intl: ^0.17.0
   fluttertoast: ^8.0.8
+  shared_preferences: 2.0.7
 #  freezed: 0.14.0
 #  freezed_annotation: 0.14.0
 

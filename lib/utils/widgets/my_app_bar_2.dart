@@ -14,8 +14,8 @@ class MyAppBar2 extends PreferredSize {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       elevation: 0,
-      backgroundColor: Theme.of(context).backgroundColor,
       title: Image.asset('assets/images/logo1.png',),
       automaticallyImplyLeading: false,
       centerTitle: false,

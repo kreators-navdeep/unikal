@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:unikul/constants/constants.dart';
+import 'package:unikul/utils/Api/apis.dart';
 import 'package:unikul/utils/Routes/routes.dart';
 import 'package:unikul/utils/size_config.dart';
 import 'package:unikul/utils/styles/text.dart';
@@ -13,6 +15,8 @@ class SpHomePage extends StatefulWidget {
 }
 
 class _SpHomePageState extends State<SpHomePage> {
+
+
 
   _buildFields({String name,String max,String obtain,Color bgColor}){
     return  FittedBox(
@@ -187,6 +191,8 @@ class _SpHomePageState extends State<SpHomePage> {
     );
   }
 
+  int _current = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -194,31 +200,65 @@ class _SpHomePageState extends State<SpHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            CarouselSlider(
-                items: [
-                  Image.asset('assets/images/banner1.png',fit: BoxFit.fill,),
-                  Image.asset('assets/images/banner1.png',fit: BoxFit.fill,),
-                  Image.asset('assets/images/banner1.png',fit: BoxFit.fill,),
-                  Image.asset('assets/images/banner1.png',fit: BoxFit.fill,),
-                ],
-                options: CarouselOptions(
-                  // height: 200,
-                  aspectRatio: 16/7,
-                  viewportFraction: 1,
-                  initialPage: 0,
-                  enableInfiniteScroll: true,
-                  reverse: false,
-                  autoPlay: true,
-                  autoPlayInterval: Duration(seconds: 3),
-                  autoPlayAnimationDuration: Duration(milliseconds: 800),
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  enlargeCenterPage: false,
-                  onPageChanged: (index,reason){
 
-                  },
-                  scrollDirection: Axis.horizontal,
-                )
-            ),
+            Consumer<Api>(builder: (cntx,api,child){
+              return  FutureBuilder(
+                  future: api.getCarouselImages(),
+                  builder: (ctx,snapshot){
+                    final data = snapshot.data;
+                    if(snapshot.hasData){
+                      return  Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          CarouselSlider(
+                              items: List.generate(data.length, (index){
+                                return Image.network(data[index],fit: BoxFit.fitWidth,width: SizeConfig.getScreenWidth(context),);
+                              }),
+                              options: CarouselOptions(
+                                // height: 200,
+                                aspectRatio: 16/8,
+                                viewportFraction: 1,
+                                initialPage: 0,
+                                enableInfiniteScroll: true,
+                                reverse: false,
+                                autoPlay: true,
+                                autoPlayInterval: Duration(seconds: 3),
+                                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                                autoPlayCurve: Curves.fastOutSlowIn,
+                                enlargeCenterPage: false,
+                                onPageChanged: (index,reason){
+                                  setState(() {
+                                    _current = index;
+                                  });
+                                },
+                                scrollDirection: Axis.horizontal,
+                              )
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: List.generate(data.length, (index) {
+                                return Container(
+                                  width: 8.0,
+                                  height: 8.0,
+                                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: _current == index
+                                          ? Theme.of(context).primaryColor
+                                          : Color.fromRGBO(0, 0, 0, 0.4)),
+                                );
+                              }),
+                            ),
+                          )
+                        ],
+                      );
+                    }else{
+                      return SizedBox();
+                    }
+                  });
+            }),
             SizedBox(height: 25,),
             Container(
               padding: const EdgeInsets.only(right: 15,left: 15,bottom: 15),
@@ -293,5 +333,17 @@ class _SpHomePageState extends State<SpHomePage> {
         ),
       ),
     );
+  }
+  List<String> _imageList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // _getData();
+  }
+
+  _getData()async{
+    Api api = Provider.of<Api>(context, listen: false);
+    _imageList = await api.getCarouselImages();
   }
 }

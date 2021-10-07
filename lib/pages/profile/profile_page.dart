@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:provider/provider.dart';
+import 'package:unikul/utils/Api/apis.dart';
 import 'package:unikul/utils/Routes/routes.dart';
 import 'package:unikul/utils/size_config.dart';
 import 'package:unikul/utils/styles/text.dart';
@@ -129,8 +130,9 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             Container(
               child: TextButton(
-                onPressed: (){
-                  Phoenix.rebirth(context);
+                onPressed: ()async{
+                  Api api = Provider.of<Api>(context, listen: false);
+                  api.logout(context);
                 },
                 child: Row(
                   children: [

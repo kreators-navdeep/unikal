@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
                 theme: ThemeData(
                     primaryColor: themeColor,
                     fontFamily: 'Noto',
-                    backgroundColor: Colors.white,
+                    backgroundColor: backGroundColor,
                     scaffoldBackgroundColor: Colors.white,
                   accentColor: Color(0xFF40A8FF),
                   iconTheme: IconThemeData(

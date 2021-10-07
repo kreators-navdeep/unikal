@@ -117,7 +117,7 @@ class _AppTextFieldState extends State<AppTextField> {
                         borderRadius: BorderRadius.circular(12),
                         color: Colors.white,
                         boxShadow: [
-                          BoxShadow(spreadRadius: 0,blurRadius: 2,offset: Offset(0,2),color: Colors.grey[400])
+                          // BoxShadow(spreadRadius: 2,blurRadius: 2,offset: Offset(0,2),color: Colors.grey[400])
                         ]
                     ),
                     child: TextFormField(
