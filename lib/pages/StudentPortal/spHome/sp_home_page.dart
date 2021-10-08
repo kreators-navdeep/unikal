@@ -334,16 +334,11 @@ class _SpHomePageState extends State<SpHomePage> {
       ),
     );
   }
-  List<String> _imageList = [];
 
   @override
   void initState() {
     super.initState();
-    // _getData();
   }
 
-  _getData()async{
-    Api api = Provider.of<Api>(context, listen: false);
-    _imageList = await api.getCarouselImages();
-  }
+
 }

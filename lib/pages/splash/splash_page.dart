@@ -28,8 +28,13 @@ class _SplashPageState extends State<SplashPage> {
         Future.delayed(Duration(seconds: splashTime),(){
           if(prefs.getString('accessKey') != null || prefs.getString('login') != null){
 
-            api.setUserId = prefs.getString('loginId');
-            api.setAccessKey = prefs.getString('accessKey');
+            api.setUserDetails(
+              userId: prefs.getString('userId'),
+              accessKey: prefs.getString('accessKey'),
+              email: prefs.getString('email'),
+              userName: prefs.getString('userName'),
+              mobileNo: prefs.getString('mobileNo')
+            );
 
             Navigator.pushReplacement(context, Routes.spLanding());
           }

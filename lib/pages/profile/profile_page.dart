@@ -35,8 +35,10 @@ class _ProfilePageState extends State<ProfilePage> {
   }
   @override
   Widget build(BuildContext context) {
+    Api api = Provider.of<Api>(context, listen: false);
+
     return Scaffold(
-      appBar: MyAppBar2(),
+    appBar: MyAppBar2(),
       body: Padding(
         padding: const EdgeInsets.only(left: 15,right: 15,top: 10),
         child: Column(
@@ -79,9 +81,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 SizedBox(height: 20,),
-                DataContainer(text: 'Aisha Parihar',title: 'Name',),
-                DataContainer(title: 'Email ID',text: 'aishaparihar@gmail.com',),
-                DataContainer(title: 'Mobile Number',text: '+91 90113241432',),
+                DataContainer(text: api.userName,title: 'Name',),
+                DataContainer(title: 'Email ID',text: api.email,),
+                DataContainer(title: 'Mobile Number',text: api.mobileNo,),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   width: SizeConfig.getScreenWidth(context),

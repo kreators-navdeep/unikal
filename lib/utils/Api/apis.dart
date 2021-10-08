@@ -16,24 +16,40 @@ class Api extends ChangeNotifier{
   UserModel _user = UserModel();
   String _accessKey;
   String _loginUserId;
+  String _userName;
+  String _email;
+  String _mobileNo;
 
   get isLoading => _isLoading;
   get user => _user;
   get loginUserId => _loginUserId;
   get accessKey => _accessKey;
+  get userName => _userName;
+  get email => _email;
+  get mobileNo => _mobileNo;
 
   void init() async {
     _isLoading = false;
     //190104284
   }
 
-  set setUserId(String userId) {
-    _loginUserId = userId;
-    notifyListeners();
-  }
+  // set setUserId(String userId) {
+  //   _loginUserId = userId;
+  //   notifyListeners();
+  // }
+  //
+  // set setAccessKey(String accessKey) {
+  //   _accessKey = accessKey;
+  //   notifyListeners();
+  // }
 
-  set setAccessKey(String accessKey) {
+  setUserDetails({String userId,String userName,String email,String accessKey,String mobileNo}){
+    _loginUserId = userId;
+    _email = email;
+    _userName = userName;
     _accessKey = accessKey;
+    _mobileNo = mobileNo;
+
     notifyListeners();
   }
 
@@ -47,15 +63,28 @@ class Api extends ChangeNotifier{
         baseUrl + 'auth/unikulvalidatengetrole',
         data: {'login':userId,'Passwd':password},
       );
-      // print(res.data);
+      print(res.data);
       _user = UserModel.fromJson(res.data);
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-
       _accessKey = _user.accessKey;
       _loginUserId = userId;
+      _email = _user.email;
+      _mobileNo = _user.mobileNo;
+      _userName = _user.userName;
+      setUserDetails(
+        userName: _user.userName,
+        userId: userId,
+        mobileNo: _user.mobileNo,
+        email: _user.email,
+        accessKey: _user.accessKey
+      );
+
       await prefs.setString('accessKey', _user.accessKey);
-      await prefs.setString('loginId', userId);
+      await prefs.setString('userId', userId);
+      await prefs.setString('userName', _user.userName);
+      await prefs.setString('email', _user.email);
+      await prefs.setString('mobileNo', _user.mobileNo);
 
       _isLoading = false;
       notifyListeners();
@@ -70,8 +99,6 @@ class Api extends ChangeNotifier{
 
   Future<void> logout(context)async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('accessKey');
-    await prefs.remove('loginId');
     prefs.clear();
     Phoenix.rebirth(context);
   }
@@ -79,8 +106,6 @@ class Api extends ChangeNotifier{
   ///STUDENT
 
   Future<List<dynamic>> getCarouselImages() async {
-    print(_loginUserId);
-    print(_accessKey);
     try {
       final res = await _dio.post(
         baseUrl + 'carousel/unikulgetcarouseldetails',
