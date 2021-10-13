@@ -24,7 +24,9 @@ import 'package:unikul/pages/myEnquiry/my_enquiry_detail_page.dart';
 import 'package:unikul/pages/notification/notification_page.dart';
 import 'package:unikul/pages/profile/edit_profile_page.dart';
 import 'package:unikul/pages/settings/notification_settings.dart';
+import 'package:unikul/pages/settings/privacy_policy_page.dart';
 import 'package:unikul/pages/settings/sp_settings_page.dart';
+import 'package:unikul/pages/settings/t_and_c_page.dart';
 import 'package:unikul/pages/sp_landing_page.dart';
 import 'package:unikul/pages/splash/splash_page.dart';
 
@@ -55,7 +57,6 @@ class Routes {
 
   static MaterialPageRoute home() => _makeRoute(HomePage());
 
-  static MaterialPageRoute notification() => _makeRoute(NotificationPage());
 
   static MaterialPageRoute enquiry() => _makeRoute(EnquiryPage());
 
@@ -95,6 +96,15 @@ class Routes {
   static MaterialPageRoute classAttendanceSummary() => _makeRoute(ClassAttendanceSummaryPage());
 
   static MaterialPageRoute attendanceReport() => _makeRoute(AttendanceReportPage());
+
+
+  ///
+
+  static MaterialPageRoute notification() => _makeRoute(NotificationPage());
+
+  static MaterialPageRoute tAndC() => _makeRoute(TAndCPage());
+
+  static MaterialPageRoute privacyPolicy() => _makeRoute(PrivacyPolicyPage());
 
 
 }

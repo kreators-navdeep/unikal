@@ -8,6 +8,8 @@ import 'package:unikul/utils/Routes/routes.dart';
 import 'package:unikul/utils/size_config.dart';
 import 'package:unikul/utils/styles/text.dart';
 import 'package:unikul/utils/widgets/my_app_bar_2.dart';
+import 'package:unikul/utils/widgets/showLoading.dart';
+
 
 class SpHomePage extends StatefulWidget {
   @override
@@ -15,7 +17,6 @@ class SpHomePage extends StatefulWidget {
 }
 
 class _SpHomePageState extends State<SpHomePage> {
-
 
 
   _buildFields({String name,String max,String obtain,Color bgColor}){
@@ -200,8 +201,7 @@ class _SpHomePageState extends State<SpHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-
-            Consumer<Api>(builder: (cntx,api,child){
+            Consumer<ApiProvider>(builder: (cntx,api,child){
               return  FutureBuilder(
                   future: api.getCarouselImages(),
                   builder: (ctx,snapshot){
@@ -255,7 +255,7 @@ class _SpHomePageState extends State<SpHomePage> {
                         ],
                       );
                     }else{
-                      return SizedBox();
+                      return ShowLoading();
                     }
                   });
             }),

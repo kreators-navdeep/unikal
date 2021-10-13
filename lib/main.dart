@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => Api(Dio()),
+          create: (context) => ApiProvider(Dio()),
         ),
       ],
       child: LayoutBuilder(
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           return OrientationBuilder(
             builder: (context, orientation) {
               SizeConfig().init(constraints, orientation);
-              Api(Dio()).init();
+              ApiProvider(Dio()).init();
               return MaterialApp(
                 debugShowCheckedModeBanner: false,
                 themeMode: ThemeMode.light,

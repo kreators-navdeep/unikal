@@ -5,12 +5,14 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unikul/constants/constants.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:unikul/models/overallAttendanceModel.dart';
 import 'package:unikul/models/userModel.dart';
-
-class Api extends ChangeNotifier{
+import 'package:unikul/pages/StudentPortal/attendance/overall_attendance.dart';
+import 'package:unikul/models/overallAttendanceModel.dart';
+class ApiProvider extends ChangeNotifier{
 
   final Dio _dio;
-  Api(this._dio);
+  ApiProvider(this._dio);
 
   bool _isLoading = false;
   UserModel _user = UserModel();
@@ -59,32 +61,41 @@ class Api extends ChangeNotifier{
     try {
       _isLoading = true;
       notifyListeners();
+
       final res = await _dio.post(
         baseUrl + 'auth/unikulvalidatengetrole',
-        data: {'login':userId,'Passwd':password},
+        data: json.encode({
+          "uid": "1000800398",
+          "Passwd": "Password123"
+        }),
       );
+      res.headers.add('Content-Type', 'application/json');
+
       print(res.data);
-      _user = UserModel.fromJson(res.data);
-      SharedPreferences prefs = await SharedPreferences.getInstance();
+      if(res.data['status'] == 'success'){
+        print(res.data);
+        _user = UserModel.fromJson(res.data);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      _accessKey = _user.accessKey;
-      _loginUserId = userId;
-      _email = _user.email;
-      _mobileNo = _user.mobileNo;
-      _userName = _user.userName;
-      setUserDetails(
-        userName: _user.userName,
-        userId: userId,
-        mobileNo: _user.mobileNo,
-        email: _user.email,
-        accessKey: _user.accessKey
-      );
+        _accessKey = _user.accessKey;
+        _loginUserId = userId;
+        _email = _user.email;
+        _mobileNo = _user.mobileNo;
+        _userName = _user.userName;
+        setUserDetails(
+            userName: _user.userName,
+            userId: userId,
+            mobileNo: _user.mobileNo,
+            email: _user.email,
+            accessKey: _user.accessKey
+        );
 
-      await prefs.setString('accessKey', _user.accessKey);
-      await prefs.setString('userId', userId);
-      await prefs.setString('userName', _user.userName);
-      await prefs.setString('email', _user.email);
-      await prefs.setString('mobileNo', _user.mobileNo);
+        await prefs.setString('accessKey', _user.accessKey);
+        await prefs.setString('userId', userId);
+        await prefs.setString('userName', _user.userName);
+        await prefs.setString('email', _user.email);
+        await prefs.setString('mobileNo', _user.mobileNo);
+      }
 
       _isLoading = false;
       notifyListeners();
@@ -109,14 +120,55 @@ class Api extends ChangeNotifier{
     try {
       final res = await _dio.post(
         baseUrl + 'carousel/unikulgetcarouseldetails',
-        data: {'login':_loginUserId,'accessKey':_accessKey},
+        data: {'uid':_loginUserId,'accessKey':_accessKey},
       );
+      res.headers.add('Content-Type', 'application/json');
       return res.data['imageList'];
     } catch (e) {
       print(e);
       return [];
     }
   }
+
+  Future getTAndC() async {
+    try {
+      print(_loginUserId);
+      print(_accessKey);
+      final res = await _dio.get(
+        baseUrl + 'admin/unikulgettncdetails',
+        queryParameters:  {'uid':_loginUserId,'accessKey':_accessKey},
+      );
+
+      return res.data['tncUrl'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future getPrivacyPolicy() async {
+    try {
+      final res = await _dio.get(
+        baseUrl + 'admin/unikulgetprivacydetails',
+        queryParameters:  {'uid':_loginUserId,'accessKey':_accessKey},
+      );
+      return res.data['privacyUrl'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<OverallAttendanceModel> getOverallAttendance({String sem}) async {
+    try {
+      final res = await _dio.get(
+        baseUrl + 'admin/unikulgetoverallattendancefordefault',
+        queryParameters:  {'uid':_loginUserId,'accessKey':_accessKey,'sem':'$sem'},
+      );
+      return OverallAttendanceModel.fromJson(res.data);
+    } catch (e) {
+      print(e);
+    }
+  }
+
 
 
 

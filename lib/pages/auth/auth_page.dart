@@ -203,7 +203,7 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
       resizeToAvoidBottomInset: true,
       body: Container(
         height: SizeConfig.getScreenHeight(context),
-        child: Consumer<Api>(
+        child: Consumer<ApiProvider>(
           builder: (ctx,api,child){
             return Stack(
               children: [

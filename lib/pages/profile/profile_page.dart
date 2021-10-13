@@ -35,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
   @override
   Widget build(BuildContext context) {
-    Api api = Provider.of<Api>(context, listen: false);
+    ApiProvider api = Provider.of<ApiProvider>(context, listen: false);
 
     return Scaffold(
     appBar: MyAppBar2(),
@@ -133,7 +133,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Container(
               child: TextButton(
                 onPressed: ()async{
-                  Api api = Provider.of<Api>(context, listen: false);
+                  ApiProvider api = Provider.of<ApiProvider>(context, listen: false);
                   api.logout(context);
                 },
                 child: Row(

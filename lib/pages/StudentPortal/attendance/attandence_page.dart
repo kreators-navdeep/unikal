@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:unikul/constants/constants.dart';
 import 'package:unikul/pages/StudentPortal/attendance/daily_attendance.dart';
 import 'package:unikul/pages/StudentPortal/attendance/overall_attendance.dart';
@@ -27,6 +28,7 @@ class _AttendancePageState extends State<AttendancePage> with SingleTickerProvid
   void initState() {
     // TODO: implement initState
     super.initState();
+
     _controller = TabController(length: list.length, vsync: this);
     _controller.addListener(() {
       setState(() {

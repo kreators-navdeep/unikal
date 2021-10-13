@@ -22,7 +22,7 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   checkUser()async{
-    Api api = Provider.of<Api>(context, listen: false);
+    ApiProvider api = Provider.of<ApiProvider>(context, listen: false);
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
         Future.delayed(Duration(seconds: splashTime),(){
