@@ -58,6 +58,7 @@ class ApiProvider extends ChangeNotifier{
 
   Future<Map<String,dynamic>> login(
       {String userId, String password}) async {
+
     try {
       _isLoading = true;
       notifyListeners();
@@ -65,15 +66,15 @@ class ApiProvider extends ChangeNotifier{
       final res = await _dio.post(
         baseUrl + 'auth/unikulvalidatengetrole',
         data: json.encode({
-          "uid": "1000800398",
-          "Passwd": "Password123"
+          "uid": "$userId",
+          "Passwd": "$password",
+          "reg_token": ''
         }),
       );
       res.headers.add('Content-Type', 'application/json');
 
       print(res.data);
       if(res.data['status'] == 'success'){
-        print(res.data);
         _user = UserModel.fromJson(res.data);
         SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -82,6 +83,7 @@ class ApiProvider extends ChangeNotifier{
         _email = _user.email;
         _mobileNo = _user.mobileNo;
         _userName = _user.userName;
+
         setUserDetails(
             userName: _user.userName,
             userId: userId,
@@ -96,7 +98,6 @@ class ApiProvider extends ChangeNotifier{
         await prefs.setString('email', _user.email);
         await prefs.setString('mobileNo', _user.mobileNo);
       }
-
       _isLoading = false;
       notifyListeners();
       return res.data;
@@ -116,14 +117,17 @@ class ApiProvider extends ChangeNotifier{
 
   ///STUDENT
 
-  Future<List<dynamic>> getCarouselImages() async {
+  Future<dynamic> getCarouselImages() async {
     try {
       final res = await _dio.post(
         baseUrl + 'carousel/unikulgetcarouseldetails',
         data: {'uid':_loginUserId,'accessKey':_accessKey},
       );
       res.headers.add('Content-Type', 'application/json');
-      return res.data['imageList'];
+      if(res.data['status'].toString().toLowerCase() == 'error')
+        return "error";
+      else
+        return res.data['imageList'];
     } catch (e) {
       print(e);
       return [];
@@ -169,7 +173,17 @@ class ApiProvider extends ChangeNotifier{
     }
   }
 
-
-
+  Future<dynamic> getOverallAttendancePercentage({String sem}) async {
+    try {
+      final res = await _dio.get(
+        baseUrl + 'admin/unikulgetlandingpagedetails',
+        queryParameters:  {'uid':_loginUserId,'accessKey':_accessKey,'sem':'$sem'},
+      );
+      res.headers.add('Content-Type', 'application/json');
+      return res.data;
+    } catch (e) {
+      print(e);
+    }
+  }
 
 }

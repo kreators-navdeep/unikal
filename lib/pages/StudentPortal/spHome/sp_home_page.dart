@@ -194,10 +194,11 @@ class _SpHomePageState extends State<SpHomePage> {
 
   int _current = 1;
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar2(),
+
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -207,6 +208,9 @@ class _SpHomePageState extends State<SpHomePage> {
                   builder: (ctx,snapshot){
                     final data = snapshot.data;
                     if(snapshot.hasData){
+                      if(data == 'error'){
+                        api.logout(context);
+                      }
                       return  Stack(
                         alignment: Alignment.center,
                         children: [
@@ -285,11 +289,21 @@ class _SpHomePageState extends State<SpHomePage> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('82.4 %',style: TextStyle(
-                                fontSize: SizeConfig.textMultiplier * 3.5,
-                                fontWeight: FontWeight.w500,
-                                color: themeGreen
-                              ),),
+                              FutureBuilder(
+                                  future: Provider.of<ApiProvider>(context, listen: false).getOverallAttendancePercentage(),
+                                  builder: (ctx,snapshot){
+                                if(snapshot.hasData){
+                                  return Text('${snapshot.data['OverallAttendancePercentage']}%',style: TextStyle(
+                                      fontSize: SizeConfig.textMultiplier * 3.5,
+                                      fontWeight: FontWeight.w500,
+                                      color: themeGreen
+                                  ),);
+                                }else if(snapshot.hasError){
+                                  return SizedBox();
+                                }else{
+                                  return Text('loading...');
+                                }
+                              }),
                               SizedBox(height: 6,),
                               Text('Overall Attendance',style: TextStyles.bodyText1Black,)
                             ],
@@ -338,6 +352,7 @@ class _SpHomePageState extends State<SpHomePage> {
   @override
   void initState() {
     super.initState();
+
   }
 
 

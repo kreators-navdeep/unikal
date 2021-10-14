@@ -38,7 +38,6 @@ class _ProfilePageState extends State<ProfilePage> {
     ApiProvider api = Provider.of<ApiProvider>(context, listen: false);
 
     return Scaffold(
-    appBar: MyAppBar2(),
       body: Padding(
         padding: const EdgeInsets.only(left: 15,right: 15,top: 10),
         child: Column(
@@ -84,21 +83,21 @@ class _ProfilePageState extends State<ProfilePage> {
                 DataContainer(text: api.userName,title: 'Name',),
                 DataContainer(title: 'Email ID',text: api.email,),
                 DataContainer(title: 'Mobile Number',text: api.mobileNo,),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  width: SizeConfig.getScreenWidth(context),
-                  child: OutlinedButton(
-                    child: Text('Edit Profile',style: TextStyle(color: Theme.of(context).accentColor,fontSize: SizeConfig.textMultiplier * 2),),
-                    style: OutlinedButton.styleFrom(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                      side: BorderSide(color: Theme.of(context).accentColor,width: 0.5),
-                      padding: const EdgeInsets.symmetric(vertical: 13)
-                    ),
-                    onPressed: (){
-                      Navigator.push(context, Routes.editProfile());
-                    },
-                  ),
-                ),
+                // Container(
+                //   padding: const EdgeInsets.symmetric(horizontal: 25),
+                //   width: SizeConfig.getScreenWidth(context),
+                //   child: OutlinedButton(
+                //     child: Text('Edit Profile',style: TextStyle(color: Theme.of(context).accentColor,fontSize: SizeConfig.textMultiplier * 2),),
+                //     style: OutlinedButton.styleFrom(
+                //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                //       side: BorderSide(color: Theme.of(context).accentColor,width: 0.5),
+                //       padding: const EdgeInsets.symmetric(vertical: 13)
+                //     ),
+                //     onPressed: (){
+                //       Navigator.push(context, Routes.editProfile());
+                //     },
+                //   ),
+                // ),
                 SizedBox(height: 14,),
                 DataContainer(
                   onPressed: (){

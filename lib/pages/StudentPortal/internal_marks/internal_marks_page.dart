@@ -118,7 +118,6 @@ class _InternalMarksPageState extends State<InternalMarksPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar2(),
       body: Padding(
         padding: const EdgeInsets.only(right: 15,left: 15),
         child: Column(

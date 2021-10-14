@@ -20,8 +20,8 @@ class _AttendancePageState extends State<AttendancePage> with SingleTickerProvid
 
 
   List<Widget> list = [
-    Tab(child: Text('Overall Attendance',style: TextStyle(fontSize: SizeConfig.textMultiplier * 2.4),)),
-    Tab(child: Text('Daily Attendance',style: TextStyle(fontSize: SizeConfig.textMultiplier * 2.4))),
+    Tab(child: FittedBox(child: Text('Overall Attendance',style: TextStyle(fontSize: SizeConfig.textMultiplier * 2.4),))),
+    Tab(child: FittedBox(child: Text('Daily Attendance',style: TextStyle(fontSize: SizeConfig.textMultiplier * 2.4)))),
   ];
 
   @override
@@ -43,7 +43,6 @@ class _AttendancePageState extends State<AttendancePage> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar2(),
       body: Container(
         padding: const EdgeInsets.only(right: 15,left: 15),
         child: Column(

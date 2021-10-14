@@ -6,7 +6,8 @@ class MyAppBar2 extends PreferredSize {
   final List<Widget> actions;
   final double height;
   final Color bgColor;
-  MyAppBar2({this.actions,this.height = kToolbarHeight,this.bgColor});
+  final Widget leading;
+  MyAppBar2({this.actions,this.height = kToolbarHeight,this.bgColor,this.leading});
 
   @override
   Size get preferredSize => Size.fromHeight(height);
@@ -18,6 +19,7 @@ class MyAppBar2 extends PreferredSize {
       elevation: 0,
       title: Image.asset('assets/images/logo1.png',),
       automaticallyImplyLeading: false,
+      leading: leading,
       centerTitle: false,
       actions: [
         SvgPicture.asset('assets/icons/locate.svg'),
