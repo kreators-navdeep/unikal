@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "392910754043",
+    "project_id": "unikul-mobile",
+    "storage_bucket": "unikul-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:392910754043:android:c98c574f38d268dceda05e",
+        "android_client_info": {
+          "package_name": "com.unikul.manipaldubai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "392910754043-hqf4br4q526po8063go54vp1po9bqq8c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2lwhsWAx8dlyybxV913i7FArrhZy2WlI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "392910754043-hqf4br4q526po8063go54vp1po9bqq8c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
