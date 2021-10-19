@@ -33,20 +33,22 @@ class _SplashPageState extends State<SplashPage> {
   checkUser()async{
     ApiProvider api = Provider.of<ApiProvider>(context, listen: false);
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
-
+    await FirebaseMessaging.instance.getToken().then((value) {
+      String token = value;
+      Provider.of<ApiProvider>(context, listen: false).setRegToken = token;
+      prefs.setString('deviceToken', token);
+    });
 
         Future.delayed(Duration(milliseconds: splashTime),(){
+          print(prefs.getString('accessKey'));
+          print(prefs.getString('userId'));
+          print(prefs.getString('deviceToken'));
+
 
 
           if(prefs.getString('accessKey') != null && prefs.getString('userId') != null && prefs.getString('deviceToken') != null){
 
-            FirebaseMessaging.instance.getToken().then((value) {
-              String token = value;
-              print(token);
-              Provider.of<ApiProvider>(context, listen: false).setRegToken = token;
-              prefs.setString('deviceToken', token);
-            });
+
 
             api.setUserDetails(
               userId: prefs.getString('userId'),

@@ -10,14 +10,12 @@ import 'package:manipaldubai/utils/styles/text.dart';
 import 'package:manipaldubai/utils/widgets/my_app_bar_2.dart';
 import 'package:manipaldubai/utils/widgets/showLoading.dart';
 
-
 class SpHomePage extends StatefulWidget {
   @override
   _SpHomePageState createState() => _SpHomePageState();
 }
 
 class _SpHomePageState extends State<SpHomePage> {
-
 
   _buildFields({String name,String max,String obtain,Color bgColor}){
     return  FittedBox(
@@ -194,7 +192,6 @@ class _SpHomePageState extends State<SpHomePage> {
 
   int _current = 1;
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -323,11 +320,21 @@ class _SpHomePageState extends State<SpHomePage> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('82.4 %',style: TextStyle(
-                                  fontSize: SizeConfig.textMultiplier * 3.5,
-                                  fontWeight: FontWeight.w500,
-                                  color: Theme.of(context).primaryColor
-                              ),),
+                              FutureBuilder(
+                                  future: Provider.of<ApiProvider>(context, listen: false).getOverallAttendancePercentage(),
+                                  builder: (ctx,snapshot){
+                                    if(snapshot.hasData){
+                                      return Text('${snapshot.data['DailyAttendancePercentage']}%',style: TextStyle(
+                                          fontSize: SizeConfig.textMultiplier * 3.5,
+                                          fontWeight: FontWeight.w500,
+                                          color: Theme.of(context).primaryColor
+                                      ),);
+                                    }else if(snapshot.hasError){
+                                      return SizedBox();
+                                    }else{
+                                      return Text('loading...');
+                                    }
+                                  }),
                               SizedBox(height: 6,),
                               Text("Today's Attendance",style: TextStyles.bodyText1Black,)
                               ],

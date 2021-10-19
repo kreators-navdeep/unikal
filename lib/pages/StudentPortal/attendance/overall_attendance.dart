@@ -21,7 +21,7 @@ class _OverallAttendanceState extends State<OverallAttendance> {
           if(snapshot.hasData){
             OverallAttendanceModel _attendance = snapshot.data;
             return Column(
-              children: List.generate(_attendance.data.length, (index) {
+              children: List.generate(_attendance.data.semAttendanceDetails.length, (index) {
                 return  Card(
                   elevation: 3,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
@@ -40,12 +40,12 @@ class _OverallAttendanceState extends State<OverallAttendance> {
                                 children: [
                                   Container(
                                     width: SizeConfig.getScreenWidth(context) * 0.6,
-                                      child: Text('${_attendance.data[index].subjectName}',style: TextStyles.heading1,)
+                                      child: Text('${_attendance.data.semAttendanceDetails[index].subjectName}',style: TextStyles.heading1,)
                                   ),
                                   SizedBox(height: 4,),
-                                  Text('AY : ${_attendance.data[index].academicYear}',style: TextStyles.bodyText1Black,),
+                                  Text('AY : ${_attendance.data.semAttendanceDetails[index].academicYear}',style: TextStyles.bodyText1Black,),
                                   SizedBox(height: 6,),
-                                  Text('Subject Code : ${_attendance.data[index].subjectCode}',style: TextStyles.subTitle,)
+                                  Text('Subject Code : ${_attendance.data.semAttendanceDetails[index].subjectCode}',style: TextStyles.subTitle,)
                                 ],
                               ),
                               Container(
@@ -57,7 +57,7 @@ class _OverallAttendanceState extends State<OverallAttendance> {
                                   ),
                                   color:  themeGreen.withOpacity(0.2),
                               ),
-                                child: Text('${_attendance.data[index].subjectClass}',
+                                child: Text('${_attendance.data.semAttendanceDetails[index].subjectClass}',
                                   style: TextStyle(
                                       fontSize: SizeConfig.textMultiplier * 2,
                                       color: themeGreen
@@ -76,7 +76,7 @@ class _OverallAttendanceState extends State<OverallAttendance> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text('${_attendance.data[index].totalClass}',style: TextStyles.heading1,),
+                                    Text('${_attendance.data.semAttendanceDetails[index].totalClass}',style: TextStyles.heading1,),
                                     SizedBox(height: 4,),
                                     Text('Total Classes',style: TextStyles.subTitle,)
                                   ],
@@ -84,7 +84,7 @@ class _OverallAttendanceState extends State<OverallAttendance> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text('${_attendance.data[index].totalPresent}',style: TextStyles.heading1,),
+                                    Text('${_attendance.data.semAttendanceDetails[index].totalPresent}',style: TextStyles.heading1,),
                                     SizedBox(height: 4,),
                                     Text('Days Present',style: TextStyles.subTitle,)
                                   ],
@@ -92,7 +92,7 @@ class _OverallAttendanceState extends State<OverallAttendance> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text('${_attendance.data[index].totalAbsent}',style: TextStyles.heading1,),
+                                    Text('${_attendance.data.semAttendanceDetails[index].totalAbsent}',style: TextStyles.heading1,),
                                     SizedBox(height: 4,),
                                     Text('Days Absent',style: TextStyles.subTitle,)
                                   ],
@@ -100,7 +100,7 @@ class _OverallAttendanceState extends State<OverallAttendance> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text('${_attendance.data[index].attendancepercentage}%',style: TextStyle(
+                                    Text('${_attendance.data.semAttendanceDetails[index].attendancepercentage}%',style: TextStyle(
                                         fontSize: SizeConfig.textMultiplier * 2,
                                         fontWeight: FontWeight.w500,
                                         color: themeGreen

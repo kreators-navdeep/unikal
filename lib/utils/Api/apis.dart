@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:manipaldubai/models/internalMarksModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:manipaldubai/constants/constants.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
@@ -34,7 +35,8 @@ class ApiProvider extends ChangeNotifier{
 
   void init() async {
     _isLoading = false;
-    //190104284
+    // "uid" : "1000800398",
+    // "Passwd" : "Password123"
   }
 
   set setRegToken(String val){
@@ -168,6 +170,7 @@ class ApiProvider extends ChangeNotifier{
 
   Future<OverallAttendanceModel> getOverallAttendance({String sem}) async {
     try {
+      print(_accessKey);
       final res = await _dio.get(
         baseUrl + 'admin/unikulgetoverallattendancefordefault',
         queryParameters:  {'uid':_loginUserId,'accessKey':_accessKey,'sem':'$sem'},
@@ -178,6 +181,20 @@ class ApiProvider extends ChangeNotifier{
     }
   }
 
+  Future<InternalMarksModel> getInternalMarks({String sem}) async {
+    try {
+      final res = await _dio.get(
+        baseUrl + 'admin/unitkulgetmarksdetails',
+        queryParameters:  {'uid':_loginUserId,'accessKey':_accessKey,'sem':'$sem'},
+      );
+      return InternalMarksModel.fromJson(res.data);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+
   Future<dynamic> getOverallAttendancePercentage({String sem}) async {
     try {
       final res = await _dio.get(
@@ -185,10 +202,10 @@ class ApiProvider extends ChangeNotifier{
         queryParameters:  {'uid':_loginUserId,'accessKey':_accessKey,'sem':'$sem'},
       );
       res.headers.add('Content-Type', 'application/json');
-      print(res.data);
       return res.data;
     } catch (e) {
       print(e);
+      return null;
     }
   }
 

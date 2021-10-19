@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:manipaldubai/models/internalMarksModel.dart';
+import 'package:manipaldubai/utils/Api/apis.dart';
 import 'package:manipaldubai/utils/size_config.dart';
 import 'package:manipaldubai/utils/styles/text.dart';
 import 'package:manipaldubai/utils/widgets/my_app_bar_2.dart';
-
+import 'package:manipaldubai/utils/widgets/showLoading.dart';
+import 'package:provider/provider.dart';
 class InternalMarksPage extends StatefulWidget {
   @override
   _InternalMarksPageState createState() => _InternalMarksPageState();
@@ -45,7 +48,7 @@ class _InternalMarksPageState extends State<InternalMarksPage> {
     );
   }
 
-  _buildProjectPlanning(){
+  Widget _buildProjectPlanning({Detail details}){
     return Container(
       width: SizeConfig.getScreenWidth(context),
       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -59,12 +62,12 @@ class _InternalMarksPageState extends State<InternalMarksPage> {
           SizedBox(height: 10,),
           Column(
             children: [
-              _buildHeading(title:'INTERNAL'),
-              _buildFields(name: 'Internal Session 1',max: "20.0",obtain: "0.0"),
-              _buildFields(name: 'Internal Session 2',max: "20.0",obtain: "0.0"),
+              // _buildHeading(title:'INTERNAL'),
+              // _buildFields(name: 'Internal Session 1',max: "20.0",obtain: "0.0"),
+              // _buildFields(name: 'Internal Session 2',max: "20.0",obtain: "0.0"),
 
               _buildHeading(title:'ASSIGNMENT'),
-              _buildFields(name: 'Assignment 1',max: "30.0",obtain: "0.0"),
+              _buildFields(name: '${details.assignmentDescription}',max: "${details.maximumMark}",obtain: "${details.marksObtained}"),
 
             ],
           )
@@ -115,6 +118,9 @@ class _InternalMarksPageState extends State<InternalMarksPage> {
     );
   }
 
+  String _selectedSem = 'I';
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -145,15 +151,19 @@ class _InternalMarksPageState extends State<InternalMarksPage> {
                           child: DropdownButton(
                             isExpanded: true,
                             underline: SizedBox(),
-                            onChanged: (val){},
-                            hint: Text('Select'),
+                            value: _selectedSem,
+                            onChanged: (val){
+                              setState(() {
+                                print(val);
+                                _selectedSem = val;
+                              });
+                            },
+                            hint: Text('Select sem'),
                             items: [
-                              DropdownMenuItem(child: Text('Semester 1')),
-                              DropdownMenuItem(child: Text('Semester 2')),
-                              DropdownMenuItem(child: Text('Semester 3')),
-                              DropdownMenuItem(child: Text('Semester 4')),
-                              DropdownMenuItem(child: Text('Semester 5')),
-                              DropdownMenuItem(child: Text('Semester 6')),
+                              DropdownMenuItem(child: Text('Semester I'),value: 'I',),
+                              DropdownMenuItem(child: Text('Semester II'),value: 'II',),
+                              DropdownMenuItem(child: Text('Semester III'),value: 'III',),
+                              DropdownMenuItem(child: Text('Semester IV'),value: 'IV',),
                             ],
                           ),
                         ),
@@ -174,30 +184,47 @@ class _InternalMarksPageState extends State<InternalMarksPage> {
             ),
             Container(
               height: SizeConfig.getScreenHeight(context) * 0.7,
-              child: ListView.separated(
-                  itemBuilder: (ctx,index){
-                    return Card(
-                      elevation: 3,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-                      child: Container(
-                        // padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 16),
-                        child: ExpansionTile(
-                            title: Text('Enterpreneurship & Project Planing',style: TextStyle(
-                              fontSize: SizeConfig.textMultiplier * 2.4,fontWeight: FontWeight.w400
-                            ),),
-                            subtitle: Text('BBA 202'),
-                            trailing: Icon(Icons.keyboard_arrow_down_rounded),
-                          children: [
-                            _buildProjectPlanning()
-                          ],
-                        )
-                      ),
+              child: FutureBuilder(
+                future: Provider.of<ApiProvider>(context,listen: false).getInternalMarks(sem: _selectedSem),
+                builder: (ctx,snapshot){
+                  if(snapshot.hasData){
+                    InternalMarksModel _marks = snapshot.data;
+                    return ListView.separated(
+                        itemBuilder: (ctx,index){
+                          return Card(
+                            elevation: 3,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                            child: Container(
+                              // padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 16),
+                                child: ExpansionTile(
+                                  title: Text('${_marks.details[index].subjectName}',style: TextStyle(
+                                      fontSize: SizeConfig.textMultiplier * 2.4,fontWeight: FontWeight.w400
+                                  ),),
+                                  subtitle: Text('${_marks.details[index].subjectCode}'),
+                                  trailing: Icon(Icons.keyboard_arrow_down_rounded),
+                                  children: [
+                                    _buildProjectPlanning(details:_marks.details[index])
+                                  ],
+                                )
+                            ),
+                          );
+                        },
+                        separatorBuilder: (ctx,index){
+                          return SizedBox(height: 12,);
+                        },
+                        itemCount: _marks.details.length
                     );
-                  },
-                  separatorBuilder: (ctx,index){
-                    return SizedBox(height: 12,);
-                  },
-                  itemCount: 10
+                  }
+                  else if(snapshot.hasError){
+                    return SizedBox();
+                  }else if(snapshot.data == null){
+                    return Center(
+                        child: Text('NO DATA AVAILABLE')
+                    );
+                  }else{
+                    return ShowLoading();
+                  }
+                },
               ),
             ),
           ],

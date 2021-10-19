@@ -15,21 +15,41 @@ class OverallAttendanceModel {
   });
 
   String status;
-  List<Datum> data;
+  Data data;
 
   factory OverallAttendanceModel.fromJson(Map<String, dynamic> json) => OverallAttendanceModel(
     status: json["status"],
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+    data: Data.fromJson(json["data"]),
   );
 
   Map<String, dynamic> toJson() => {
     "status": status,
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
+    "data": data.toJson(),
   };
 }
 
-class Datum {
-  Datum({
+class Data {
+  Data({
+    this.overallSemAttendancePercentage,
+    this.semAttendanceDetails,
+  });
+
+  int overallSemAttendancePercentage;
+  List<SemAttendanceDetail> semAttendanceDetails;
+
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+    overallSemAttendancePercentage: json["overallSemAttendancePercentage"],
+    semAttendanceDetails: List<SemAttendanceDetail>.from(json["semAttendanceDetails"].map((x) => SemAttendanceDetail.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "overallSemAttendancePercentage": overallSemAttendancePercentage,
+    "semAttendanceDetails": List<dynamic>.from(semAttendanceDetails.map((x) => x.toJson())),
+  };
+}
+
+class SemAttendanceDetail {
+  SemAttendanceDetail({
     this.academicYear,
     this.studentNo,
     this.subjectCode,
@@ -59,7 +79,7 @@ class Datum {
   String subjectClass;
   String subjectType;
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory SemAttendanceDetail.fromJson(Map<String, dynamic> json) => SemAttendanceDetail(
     academicYear: json["Academic Year"],
     studentNo: json["StudentNo"],
     subjectCode: json["SubjectCode"],

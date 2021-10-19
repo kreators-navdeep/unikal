@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:manipaldubai/constants/constants.dart';
 import 'package:manipaldubai/utils/size_config.dart';
 import 'package:manipaldubai/utils/styles/text.dart';
@@ -10,12 +11,52 @@ class DailyAttendance extends StatefulWidget {
 
 class _DailyAttendanceState extends State<DailyAttendance> {
 
-  List<String> _year = ['2021','2020','2019'];
-  List<String> _months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  // List<String> _year = ['2021','2020','2019'];
+  // List<String> _months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  DateTime selectedTimeFrom = DateTime.now();
+  DateTime selectedTimeTo = DateTime.now();
 
+  TextEditingController _fromDate = TextEditingController();
+  TextEditingController _toDate = TextEditingController();
+
+
+  Future<Null> _selectTimeFrom(BuildContext context) async {
+    final DateTime picked_s = await showDatePicker(
+        context: context,
+        firstDate:DateTime(2000),
+        lastDate: DateTime.now(),
+        initialDate: selectedTimeFrom , builder: (BuildContext context, Widget child) {
+      return MediaQuery(
+        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+        child: child,
+      );});
+
+    if (picked_s != null)
+      setState(() {
+        selectedTimeFrom = picked_s;
+        _fromDate.text = DateFormat('dd-MMM-yyyy').format(selectedTimeFrom);
+      });
+  }
+
+  Future<Null> _selectTimeTO(BuildContext context) async {
+    final DateTime picked_s = await showDatePicker(
+        context: context,
+        firstDate: selectedTimeFrom,
+        lastDate: DateTime.now(),
+        initialDate: selectedTimeTo , builder: (BuildContext context, Widget child) {
+      return MediaQuery(
+        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+        child: child,
+      );});
+
+    if (picked_s != null)
+      setState(() {
+        selectedTimeTo = picked_s;
+        _toDate.text = DateFormat('dd-MMM-yyyy').format(selectedTimeTo);
+      });
+  }
 
   _buildAttendanceBlock(){
-
     List attendance = [true,false,true,true,true,true,false,true,true,true,true];
     return Column(
       children: List.generate(attendance.length, (index) {
@@ -78,47 +119,50 @@ class _DailyAttendanceState extends State<DailyAttendance> {
             ),
             SizedBox(height: 14,),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  width: SizeConfig.getScreenWidth(context) * 0.2,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      color: Color(0xFFF9F9F9),
-                      border: Border.all(color: Colors.grey,width: 0.2)
+                InkWell(
+                  onTap: (){
+                    _selectTimeFrom(context);
+                  },
+                  child: Container(
+                    width: SizeConfig.getScreenWidth(context) * 0.45,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: Color(0xFFF9F9F9),
+                        border: Border.all(color: Colors.grey,width: 0.2)
 
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: DropdownButton(
-                    isExpanded: true,
-                    underline: SizedBox(),
-                    onChanged: (val){},
-                    hint: Text('Year'),
-                    items: List.generate(_year.length, (index){
-                      return DropdownMenuItem(
-                        child: Text(_year[index]),
-                      );
-                    }),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(_fromDate.text.isEmpty ? 'From' : _fromDate.text,style: TextStyles.heading1,),
+                        Icon(Icons.arrow_drop_down)
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(width: 12,),
-                Container(
-                  width: SizeConfig.getScreenWidth(context) * 0.3,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      color: Color(0xFFF9F9F9),
-                    border: Border.all(color: Colors.grey,width: 0.2)
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: DropdownButton(
-                    isExpanded: true,
-                    underline: SizedBox(),
-                    onChanged: (val){},
-                    hint: Text('Month'),
-                    items: List.generate(_months.length, (index){
-                      return DropdownMenuItem(
-                        child: Text(_months[index]),
-                      );
-                    }),
+                InkWell(
+                  onTap: (){
+                    _selectTimeTO(context);
+                  },
+                  child: Container(
+                    width: SizeConfig.getScreenWidth(context) * 0.45,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: Color(0xFFF9F9F9),
+                      border: Border.all(color: Colors.grey,width: 0.2)
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(_toDate.text.isEmpty ? 'To' : _toDate.text,style: TextStyles.heading1,),
+                        Icon(Icons.arrow_drop_down)
+                      ],
+                    ),
                   ),
                 ),
 
