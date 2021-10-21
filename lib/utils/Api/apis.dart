@@ -1,7 +1,11 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
+import 'package:manipaldubai/models/dailyAttendanceModel.dart';
+import 'package:manipaldubai/models/helpModel.dart';
 import 'package:manipaldubai/models/internalMarksModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:manipaldubai/constants/constants.dart';
@@ -10,6 +14,8 @@ import 'package:manipaldubai/models/overallAttendanceModel.dart';
 import 'package:manipaldubai/models/userModel.dart';
 import 'package:manipaldubai/pages/StudentPortal/attendance/overall_attendance.dart';
 import 'package:manipaldubai/models/overallAttendanceModel.dart';
+import 'package:connectivity/connectivity.dart';
+
 class ApiProvider extends ChangeNotifier{
 
   final Dio _dio;
@@ -24,6 +30,7 @@ class ApiProvider extends ChangeNotifier{
   String _mobileNo;
   String _regToken;
 
+
   get regToken => _regToken;
   get isLoading => _isLoading;
   get user => _user;
@@ -33,25 +40,21 @@ class ApiProvider extends ChangeNotifier{
   get email => _email;
   get mobileNo => _mobileNo;
 
+
+
+
   void init() async {
+
     _isLoading = false;
     // "uid" : "1000800398",
     // "Passwd" : "Password123"
   }
 
+
+
   set setRegToken(String val){
     _regToken = val;
   }
-
-  // set setUserId(String userId) {
-  //   _loginUserId = userId;
-  //   notifyListeners();
-  // }
-  //
-  // set setAccessKey(String accessKey) {
-  //   _accessKey = accessKey;
-  //   notifyListeners();
-  // }
 
   setUserDetails({String userId,String userName,String email,String accessKey,String mobileNo}){
     _loginUserId = userId;
@@ -175,9 +178,11 @@ class ApiProvider extends ChangeNotifier{
         baseUrl + 'admin/unikulgetoverallattendancefordefault',
         queryParameters:  {'uid':_loginUserId,'accessKey':_accessKey,'sem':'$sem'},
       );
+      print(res.data);
       return OverallAttendanceModel.fromJson(res.data);
     } catch (e) {
       print(e);
+      return null;
     }
   }
 
@@ -194,6 +199,27 @@ class ApiProvider extends ChangeNotifier{
     }
   }
 
+  Future<DailyAttendanceModel> getDailyAttendance({String fromDate,String toDate}) async {
+    try {
+      print(fromDate);
+      print(toDate);
+      final res = await _dio.get(
+        baseUrl + 'admin/unikulgetdailyattendance',
+        queryParameters:  {
+          'uid':_loginUserId,
+          'accessKey':_accessKey,
+          'fromdate': "$fromDate",
+          'todate': "$toDate"
+        },
+      );
+      print(res.data);
+      return DailyAttendanceModel.fromJson(res.data);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
 
   Future<dynamic> getOverallAttendancePercentage({String sem}) async {
     try {
@@ -203,6 +229,21 @@ class ApiProvider extends ChangeNotifier{
       );
       res.headers.add('Content-Type', 'application/json');
       return res.data;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<HelpModel> getHelpData() async {
+    try {
+      final res = await _dio.get(
+        baseUrl + 'admin/unikulgethelpdetails',
+        queryParameters:  {'uid':_loginUserId,'accessKey':_accessKey},
+      );
+      res.headers.add('Content-Type', 'application/json');
+      print(res.data);
+      return HelpModel.fromJson(res.data);
     } catch (e) {
       print(e);
       return null;

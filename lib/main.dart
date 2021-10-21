@@ -8,14 +8,22 @@ import 'package:manipaldubai/utils/Api/apis.dart';
 import 'package:manipaldubai/utils/size_config.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   return runApp(Phoenix(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(

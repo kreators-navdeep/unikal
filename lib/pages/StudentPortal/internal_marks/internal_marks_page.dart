@@ -189,38 +189,41 @@ class _InternalMarksPageState extends State<InternalMarksPage> {
                 builder: (ctx,snapshot){
                   if(snapshot.hasData){
                     InternalMarksModel _marks = snapshot.data;
-                    return ListView.separated(
-                        itemBuilder: (ctx,index){
-                          return Card(
-                            elevation: 3,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-                            child: Container(
-                              // padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 16),
-                                child: ExpansionTile(
-                                  title: Text('${_marks.details[index].subjectName}',style: TextStyle(
-                                      fontSize: SizeConfig.textMultiplier * 2.4,fontWeight: FontWeight.w400
-                                  ),),
-                                  subtitle: Text('${_marks.details[index].subjectCode}'),
-                                  trailing: Icon(Icons.keyboard_arrow_down_rounded),
-                                  children: [
-                                    _buildProjectPlanning(details:_marks.details[index])
-                                  ],
-                                )
-                            ),
-                          );
-                        },
-                        separatorBuilder: (ctx,index){
-                          return SizedBox(height: 12,);
-                        },
-                        itemCount: _marks.details.length
+                    return RefreshIndicator(
+                      onRefresh: (){
+                        return Future.delayed(Duration(milliseconds: 1000),(){
+                          setState(() {});
+                        });
+                      },
+                      child: ListView.separated(
+                          itemBuilder: (ctx,index){
+                            return Card(
+                              elevation: 3,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                              child: Container(
+                                // padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 16),
+                                  child: ExpansionTile(
+                                    title: Text('${_marks.details[index].subjectName}',style: TextStyle(
+                                        fontSize: SizeConfig.textMultiplier * 2.4,fontWeight: FontWeight.w400
+                                    ),),
+                                    subtitle: Text('${_marks.details[index].subjectCode}'),
+                                    trailing: Icon(Icons.keyboard_arrow_down_rounded),
+                                    children: [
+                                      _buildProjectPlanning(details:_marks.details[index])
+                                    ],
+                                  )
+                              ),
+                            );
+                          },
+                          separatorBuilder: (ctx,index){
+                            return SizedBox(height: 12,);
+                          },
+                          itemCount: _marks.details.length
+                      ),
                     );
                   }
                   else if(snapshot.hasError){
                     return SizedBox();
-                  }else if(snapshot.data == null){
-                    return Center(
-                        child: Text('NO DATA AVAILABLE')
-                    );
                   }else{
                     return ShowLoading();
                   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:manipaldubai/utils/widgets/no_connection.dart';
 import 'package:provider/provider.dart';
 import 'package:manipaldubai/utils/Api/apis.dart';
 import 'package:manipaldubai/utils/Routes/routes.dart';
@@ -10,6 +11,9 @@ import 'package:manipaldubai/utils/widgets/app_button.dart';
 import 'package:manipaldubai/utils/widgets/app_drop_down2.dart';
 import 'package:manipaldubai/utils/widgets/showLoading.dart';
 import 'package:manipaldubai/utils/widgets/textfield.dart';
+import 'package:connectivity/connectivity.dart';
+import 'dart:async';
+import 'package:flutter/services.dart';
 
 class AuthPage extends StatefulWidget {
   @override
@@ -35,11 +39,52 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
   ];
 
   List<String> users = ['Applicant','Admission officer','Student portal','Faculty'];
+  bool _connectionStatus = false;
+  final Connectivity _connectivity = Connectivity();
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+        setState(() => _connectionStatus = true);
+        break;
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = false);
+        break;
+      default:
+        setState(() => _connectionStatus = false);
+        break;
+    }
+  }
+
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     _controller = TabController(length: list.length, vsync: this);
     _controller.addListener(() {
       setState(() {
@@ -201,7 +246,7 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: Container(
+      body: !_connectionStatus ? NoConnection() : Container(
         height: SizeConfig.getScreenHeight(context),
         child: Consumer<ApiProvider>(
           builder: (ctx,api,child){

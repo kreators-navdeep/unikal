@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:manipaldubai/utils/widgets/no_connection.dart';
 import 'package:provider/provider.dart';
 import 'package:manipaldubai/constants/constants.dart';
 import 'package:manipaldubai/utils/Api/apis.dart';
@@ -190,167 +191,127 @@ class _SpHomePageState extends State<SpHomePage> {
     );
   }
 
-  int _current = 1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Consumer<ApiProvider>(builder: (cntx,api,child){
-              return  FutureBuilder(
-                  future: api.getCarouselImages(),
-                  builder: (ctx,snapshot){
-                    final data = snapshot.data;
-                    if(snapshot.hasData){
-                      if(data == 'error'){
-                        api.logout(context);
+      body: RefreshIndicator(
+        onRefresh: (){
+          return Future.delayed(Duration(milliseconds: 1000),(){
+            setState(() {});
+          });
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Consumer<ApiProvider>(
+                  builder: (cntx,api,child){
+                return FutureBuilder(
+                    future: api.getCarouselImages(),
+                    builder: (ctx,snapshot){
+                      final data = snapshot.data;
+                      if(snapshot.hasData){
+                        if(data == 'error'){
+                          api.logout(context);
+                        }
+                        return HomeCarouselSlider(data: data,);
+                      }else{
+                        return ShowLoading();
                       }
-                      return  Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          CarouselSlider(
-                              items: List.generate(data.length, (index){
-                                return Image.network(data[index],fit: BoxFit.fitWidth,width: SizeConfig.getScreenWidth(context),);
-                              }),
-                              options: CarouselOptions(
-                                // height: 200,
-                                aspectRatio: 16/8,
-                                viewportFraction: 1,
-                                initialPage: 0,
-                                enableInfiniteScroll: true,
-                                reverse: false,
-                                autoPlay: true,
-                                autoPlayInterval: Duration(seconds: 3),
-                                autoPlayAnimationDuration: Duration(milliseconds: 800),
-                                autoPlayCurve: Curves.fastOutSlowIn,
-                                enlargeCenterPage: false,
-                                onPageChanged: (index,reason){
-                                  setState(() {
-                                    _current = index;
-                                  });
-                                },
-                                scrollDirection: Axis.horizontal,
-                              )
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: List.generate(data.length, (index) {
-                                return Container(
-                                  width: 8.0,
-                                  height: 8.0,
-                                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: _current == index
-                                          ? Theme.of(context).primaryColor
-                                          : Color.fromRGBO(0, 0, 0, 0.4)),
-                                );
-                              }),
+                    });
+              }),
+              SizedBox(height: 25,),
+              Container(
+                padding: const EdgeInsets.only(right: 15,left: 15,bottom: 15),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Registration No: 200108002',style: TextStyles.subTitle,),
+                        Text('SLCM No: 379469',style: TextStyles.subTitle,),
+                      ],
+                    ),
+                    SizedBox(height: 16,),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                              color: themeGreen.withOpacity(0.1),
+                              border: Border.all(color: themeGreen,width: 0.1)
                             ),
-                          )
-                        ],
-                      );
-                    }else{
-                      return ShowLoading();
-                    }
-                  });
-            }),
-            SizedBox(height: 25,),
-            Container(
-              padding: const EdgeInsets.only(right: 15,left: 15,bottom: 15),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Registration No: 200108002',style: TextStyles.subTitle,),
-                      Text('SLCM No: 379469',style: TextStyles.subTitle,),
-                    ],
-                  ),
-                  SizedBox(height: 16,),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4),
-                            color: themeGreen.withOpacity(0.1),
-                            border: Border.all(color: themeGreen,width: 0.1)
-                          ),
-                          height: 120,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              FutureBuilder(
-                                  future: Provider.of<ApiProvider>(context, listen: false).getOverallAttendancePercentage(),
-                                  builder: (ctx,snapshot){
-                                if(snapshot.hasData){
-                                  return Text('${snapshot.data['OverallAttendancePercentage']}%',style: TextStyle(
-                                      fontSize: SizeConfig.textMultiplier * 3.5,
-                                      fontWeight: FontWeight.w500,
-                                      color: themeGreen
-                                  ),);
-                                }else if(snapshot.hasError){
-                                  return SizedBox();
-                                }else{
-                                  return Text('loading...');
-                                }
-                              }),
-                              SizedBox(height: 6,),
-                              Text('Overall Attendance',style: TextStyles.bodyText1Black,)
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 12,),
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            color: Theme.of(context).primaryColor.withOpacity(0.1),
-                              border: Border.all(color: Theme.of(context).primaryColor,width: 0.2)
-
-                          ),
-                          height: 120,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              FutureBuilder(
-                                  future: Provider.of<ApiProvider>(context, listen: false).getOverallAttendancePercentage(),
-                                  builder: (ctx,snapshot){
-                                    if(snapshot.hasData){
-                                      return Text('${snapshot.data['DailyAttendancePercentage']}%',style: TextStyle(
-                                          fontSize: SizeConfig.textMultiplier * 3.5,
-                                          fontWeight: FontWeight.w500,
-                                          color: Theme.of(context).primaryColor
-                                      ),);
-                                    }else if(snapshot.hasError){
-                                      return SizedBox();
-                                    }else{
-                                      return Text('loading...');
-                                    }
-                                  }),
-                              SizedBox(height: 6,),
-                              Text("Today's Attendance",style: TextStyles.bodyText1Black,)
+                            height: 120,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FutureBuilder(
+                                    future: Provider.of<ApiProvider>(context, listen: false).getOverallAttendancePercentage(),
+                                    builder: (ctx,snapshot){
+                                  if(snapshot.hasData){
+                                    return Text('${snapshot.data['OverallAttendancePercentage']}%',style: TextStyle(
+                                        fontSize: SizeConfig.textMultiplier * 3.5,
+                                        fontWeight: FontWeight.w500,
+                                        color: themeGreen
+                                    ),);
+                                  }else if(snapshot.hasError){
+                                    return SizedBox();
+                                  }else{
+                                    return Text('loading...');
+                                  }
+                                }),
+                                SizedBox(height: 6,),
+                                Text('Overall Attendance',style: TextStyles.bodyText1Black,)
                               ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 12,),
-                  _buildProjectPlanning(),
-                  SizedBox(height: 14,),
-                  _buildRecommended()
-                ],
-              ),
-            )
-          ],
+                        SizedBox(width: 12,),
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              color: Theme.of(context).primaryColor.withOpacity(0.1),
+                                border: Border.all(color: Theme.of(context).primaryColor,width: 0.2)
+
+                            ),
+                            height: 120,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FutureBuilder(
+                                    future: Provider.of<ApiProvider>(context, listen: false).getOverallAttendancePercentage(),
+                                    builder: (ctx,snapshot){
+                                      if(snapshot.hasData){
+                                        return Text('${snapshot.data['DailyAttendancePercentage']}%',style: TextStyle(
+                                            fontSize: SizeConfig.textMultiplier * 3.5,
+                                            fontWeight: FontWeight.w500,
+                                            color: Theme.of(context).primaryColor
+                                        ),);
+                                      }else if(snapshot.hasError){
+                                        return SizedBox();
+                                      }else{
+                                        return Text('loading...');
+                                      }
+                                    }),
+                                SizedBox(height: 6,),
+                                Text("Today's Attendance",style: TextStyles.bodyText1Black,)
+                                ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 12,),
+                    _buildProjectPlanning(),
+                    SizedBox(height: 14,),
+                    _buildRecommended()
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -364,3 +325,66 @@ class _SpHomePageState extends State<SpHomePage> {
 
 
 }
+
+class HomeCarouselSlider extends StatefulWidget {
+  final data;
+  HomeCarouselSlider({this.data});
+  @override
+  _HomeCarouselSliderState createState() => _HomeCarouselSliderState();
+}
+
+class _HomeCarouselSliderState extends State<HomeCarouselSlider> {
+  int _current = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return  Stack(
+      alignment: Alignment.center,
+      children: [
+        CarouselSlider(
+            items: List.generate(widget.data.length, (index){
+              return Image.network(widget.data[index],fit: BoxFit.fitWidth,width: SizeConfig.getScreenWidth(context),);
+            }),
+            options: CarouselOptions(
+              // height: 200,
+              aspectRatio: 16/8,
+              viewportFraction: 1,
+              initialPage: 0,
+              enableInfiniteScroll: true,
+              reverse: false,
+              autoPlay: true,
+              autoPlayInterval: Duration(seconds: 3),
+              autoPlayAnimationDuration: Duration(milliseconds: 800),
+              autoPlayCurve: Curves.fastOutSlowIn,
+              enlargeCenterPage: false,
+              onPageChanged: (index,reason){
+                setState(() {
+                  _current = index;
+                });
+              },
+              scrollDirection: Axis.horizontal,
+            )
+        ),
+        Positioned(
+          bottom: 0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(widget.data.length, (index) {
+              return Container(
+                width: 8.0,
+                height: 8.0,
+                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _current == index
+                        ? Theme.of(context).primaryColor
+                        : Color.fromRGBO(0, 0, 0, 0.4)),
+              );
+            }),
+          ),
+        )
+      ],
+    );
+  }
+}
+

@@ -30,9 +30,11 @@ class _ExpansionTileWidgetState extends State<ExpansionTileWidget> {
           _expanded = val;
         });
       },
+      expandedAlignment: Alignment.centerLeft,
       title: Text(widget.title),
       childrenPadding:  EdgeInsets.only(left: 16,right: SizeConfig.getScreenWidth(context) * 0.2,bottom: 16),
       children: widget.children,
+
     );
   }
 }
