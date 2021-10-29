@@ -226,14 +226,6 @@ class _SpHomePageState extends State<SpHomePage> {
                 child: Column(
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Registration No: 200108002',style: TextStyles.subTitle,),
-                        Text('SLCM No: 379469',style: TextStyles.subTitle,),
-                      ],
-                    ),
-                    SizedBox(height: 16,),
-                    Row(
                       children: [
                         Expanded(
                           child: Container(

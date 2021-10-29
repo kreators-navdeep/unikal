@@ -202,14 +202,6 @@ class _DailyAttendanceState extends State<DailyAttendance> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            SizedBox(height: 8,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Registration No: 200108002',style: TextStyles.subTitle,),
-                Text('SLCM No: 379469',style: TextStyles.subTitle,),
-              ],
-            ),
             SizedBox(height: 14,),
             InkWell(
               onTap: (){

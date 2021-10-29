@@ -59,7 +59,7 @@ class _AttendancePageState extends State<AttendancePage> with SingleTickerProvid
             ),
             Container(
               width: SizeConfig.getScreenWidth(context),
-              height: SizeConfig.getScreenHeight(context) * 0.75,
+              height: SizeConfig.getScreenHeight(context) * 0.82 - MyAppBar2().height,
               child: TabBarView(
                 controller: _controller,
                 physics: NeverScrollableScrollPhysics(),

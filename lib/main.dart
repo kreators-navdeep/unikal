@@ -7,7 +7,10 @@ import 'package:manipaldubai/pages/splash/splash_page.dart';
 import 'package:manipaldubai/utils/Api/apis.dart';
 import 'package:manipaldubai/utils/size_config.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import 'package:appcenter/appcenter.dart';
+import 'package:appcenter_analytics/appcenter_analytics.dart';
+import 'package:appcenter_crashes/appcenter_crashes.dart';
+import 'package:flutter/foundation.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +26,18 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
+  void initAppCenter() async{
+    final ios = defaultTargetPlatform == TargetPlatform.iOS;
+    var app_secret = ios ? "123cfac9-123b-123a-123f-123273416a48" : "ff83b338-a199-4cf5-b8b8-3cb5ab65a978";
+
+    await AppCenter.start(app_secret, [AppCenterAnalytics.id, AppCenterCrashes.id]);
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    initAppCenter();
+  }
 
   @override
   Widget build(BuildContext context) {

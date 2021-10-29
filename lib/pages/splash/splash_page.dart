@@ -48,8 +48,6 @@ class _SplashPageState extends State<SplashPage> {
 
           if(prefs.getString('accessKey') != null && prefs.getString('userId') != null && prefs.getString('deviceToken') != null){
 
-
-
             api.setUserDetails(
               userId: prefs.getString('userId'),
               accessKey: prefs.getString('accessKey'),

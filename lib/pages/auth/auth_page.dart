@@ -21,6 +21,7 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin {
+  String _value = 'Student portal';
 
   final GlobalKey<FormState> _formKeyLogin = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKeySignUp = GlobalKey<FormState>();
@@ -31,7 +32,6 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
   TextEditingController _userIdController = TextEditingController();
   TextEditingController _passController = TextEditingController();
 
-  dynamic _value;
 
   List<Widget> list = [
     Tab(child: Text('Create Account',style: TextStyle(fontSize: SizeConfig.textMultiplier * 2.4),)),
@@ -195,7 +195,27 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
         key: _formKeyLogin,
         child: Column(
           children: [
+
             Text('LogIn',style: TextStyle(color:Colors.grey[800],fontWeight: FontWeight.w800,fontSize: SizeConfig.textMultiplier * 3),),
+            SizedBox(height: 20,),
+            Container(
+              width: 150,
+              child: DropdownButton<String>(
+                value: _value,
+                onChanged: (val){
+                  print(val);
+                  setState(() {
+                    _value = val;
+                  });
+                },
+                items: users.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child:  Text(value),
+                  );
+                }).toList(),
+              ),
+            ),
             SizedBox(height: 20,),
             // _buildSocialLoginButton(text: 'Continue with Linkedin',icon: 'linkedin'),
             // SizedBox(height: 14,),
@@ -300,12 +320,27 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
                             isFullWidth: true,
                             onPressed: ()async{
                               FocusScope.of(context).unfocus();
+
                               if(_selectedIndex == 0){
                                 if (!_formKeySignUp.currentState.validate()) return;
                                 _formKeyLogin.currentState.save();
                               }else{
                                 if (!_formKeyLogin.currentState.validate()) return;
                                 _formKeyLogin.currentState.save();
+
+                                switch(_value){
+                                  case 'Applicant' : Navigator.push(context, Routes.landing());
+                                  break;
+
+                                  case 'Admission officer' : Navigator.push(context, Routes.aoLanding());
+                                  break;
+
+                                  case 'Student portal' : Navigator.push(context, Routes.spLanding());
+                                  break;
+
+                                  case 'Faculty' : Navigator.push(context, Routes.facultyLanding());
+                                  break;
+                                }
 
                                 final res = await api.login(userId: _userIdController.text.trim(),password: _passController.text.trim());
                                 Fluttertoast.showToast(msg: res['message'], toastLength: Toast.LENGTH_SHORT);
@@ -334,4 +369,6 @@ class _AuthPageState extends State<AuthPage> with SingleTickerProviderStateMixin
       ),
     );
   }
+
+  _onStudentLogin(){}
 }

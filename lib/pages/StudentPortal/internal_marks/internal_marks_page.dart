@@ -11,7 +11,7 @@ class InternalMarksPage extends StatefulWidget {
   _InternalMarksPageState createState() => _InternalMarksPageState();
 }
 
-class _InternalMarksPageState extends State<InternalMarksPage> {
+class _InternalMarksPageState extends State<InternalMarksPage>  with SingleTickerProviderStateMixin{
   _buildFields({String name,String max,String obtain,Color bgColor}){
     return  FittedBox(
       child: Container(
@@ -118,76 +118,86 @@ class _InternalMarksPageState extends State<InternalMarksPage> {
     );
   }
 
-  String _selectedSem = 'I';
+  String _selectedSem = 'IV';
+  TabController _controller;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _controller = TabController(length: list.length, vsync: this);
+    _controller.addListener(() {
+      setState(() {
+      });
+      print("Selected Index: " + _controller.index.toString());
+    });
+  }
 
 
+  List<Widget> list = [
+    Tab(child: FittedBox(child: Text('Internal Marks',style: TextStyle(fontSize: SizeConfig.textMultiplier * 2.4),))),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(right: 15,left: 15),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             FittedBox(
               child: Container(
-                height: SizeConfig.getScreenHeight(context) * 0.12,
-                width: SizeConfig.getScreenWidth(context),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Internal Marks',style: TextStyles.heading2,),
-                        Container(
-                          width: SizeConfig.getScreenWidth(context) * 0.4,
-                          height: 40,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
-                              color: Color(0xFFF9F9F9),
-                              border: Border.all(color: Colors.grey,width: 0.2)
-                          ),
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          child: DropdownButton(
-                            isExpanded: true,
-                            underline: SizedBox(),
-                            value: _selectedSem,
-                            onChanged: (val){
-                              setState(() {
-                                print(val);
-                                _selectedSem = val;
-                              });
-                            },
-                            hint: Text('Select sem'),
-                            items: [
-                              DropdownMenuItem(child: Text('Semester I'),value: 'I',),
-                              DropdownMenuItem(child: Text('Semester II'),value: 'II',),
-                              DropdownMenuItem(child: Text('Semester III'),value: 'III',),
-                              DropdownMenuItem(child: Text('Semester IV'),value: 'IV',),
-                            ],
-                          ),
-                        ),
-
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Registration No: 200108002',style: TextStyles.subTitle,),
-                        Text('SLCM No: 379469',style: TextStyles.subTitle,),
-                      ],
-                    ),
-                    SizedBox(height: 14,),
-                  ],
+                height: SizeConfig.getScreenHeight(context) * 0.06,
+                width: SizeConfig.getScreenWidth(context) * 0.45,
+                child: TabBar(
+                  controller: _controller,
+                  tabs: list,
+                  labelColor: Colors.black,
+                  unselectedLabelColor: Colors.grey,
                 ),
               ),
             ),
+            SizedBox(height: 16,),
             Container(
-              height: SizeConfig.getScreenHeight(context) * 0.7,
+              width: SizeConfig.getScreenWidth(context) * 0.4,
+              height: 40,
+              alignment: Alignment.centerLeft,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6),
+                  color: Color(0xFFF9F9F9),
+                  border: Border.all(color: Colors.grey,width: 0.2)
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: DropdownButton(
+                isExpanded: true,
+                underline: SizedBox(),
+                value: _selectedSem,
+                onChanged: (val){
+                  setState(() {
+                    print(val);
+                    _selectedSem = val;
+                  });
+                },
+
+                hint: Text('Select sem'),
+                items: [
+                  DropdownMenuItem(child: Text('Semester I'),value: 'I',),
+                  DropdownMenuItem(child: Text('Semester II'),value: 'II',),
+                  DropdownMenuItem(child: Text('Semester III'),value: 'III',),
+                  DropdownMenuItem(child: Text('Semester IV'),value: 'IV',),
+                ],
+              ),
+            ),
+            SizedBox(height: 16,),
+            Container(
+              height: SizeConfig.getScreenHeight(context) * 0.72 - 32,
               child: FutureBuilder(
                 future: Provider.of<ApiProvider>(context,listen: false).getInternalMarks(sem: _selectedSem),
                 builder: (ctx,snapshot){
-                  if(snapshot.hasData){
+                  if(snapshot.connectionState ==  ConnectionState.waiting){
+                    return ShowLoading();
+                  }else if(snapshot.hasData){
                     InternalMarksModel _marks = snapshot.data;
                     return RefreshIndicator(
                       onRefresh: (){
@@ -225,7 +235,7 @@ class _InternalMarksPageState extends State<InternalMarksPage> {
                   else if(snapshot.hasError){
                     return SizedBox();
                   }else{
-                    return ShowLoading();
+                    return Center(child: Text('NO DATA AVAILABLE'));
                   }
                 },
               ),

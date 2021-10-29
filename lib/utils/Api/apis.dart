@@ -50,8 +50,6 @@ class ApiProvider extends ChangeNotifier{
     // "Passwd" : "Password123"
   }
 
-
-
   set setRegToken(String val){
     _regToken = val;
   }
